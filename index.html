@@ -11,20 +11,113 @@
 
 </head>
 <body>
-<div class="wrap">
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="profile-mini">
+      <img src="images/Professional_Desk_Profile.png" alt="Abbas Molvi" class="profile-mini-img">
+      <div class="profile-mini-info">
+        <h3>Abbas Molvi</h3>
+        <p>Interim Regulations Manager</p>
+      </div>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search portfolio..." class="search-input">
+    <button id="searchBtn" class="search-btn" aria-label="Search">
+      <span>🔍</span>
+    </button>
+  </div>
+  
+  <ul class="nav-menu">
+    <li class="nav-item active" data-page="summary">
+      <a href="#summary" class="nav-link">
+        <span class="nav-icon">👤</span>
+        <span class="nav-text">Summary</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="experience">
+      <a href="#experience" class="nav-link">
+        <span class="nav-icon">💼</span>
+        <span class="nav-text">Work Experience</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="travel">
+      <a href="#travel" class="nav-link">
+        <span class="nav-icon">🌍</span>
+        <span class="nav-text">Travel & Countries</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="languages">
+      <a href="#languages" class="nav-link">
+        <span class="nav-icon">🗣️</span>
+        <span class="nav-text">Languages</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="hobbies">
+      <a href="#hobbies" class="nav-link">
+        <span class="nav-icon">🎯</span>
+        <span class="nav-text">Hobbies & Interests</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="skills">
+      <a href="#skills" class="nav-link">
+        <span class="nav-icon">⚡</span>
+        <span class="nav-text">Skills</span>
+      </a>
+    </li>
+  </ul>
+  
+  <div class="sidebar-footer">
+    <div class="contact-mini">
+      <a href="tel:+918602860182" class="contact-link">📞 +91 8602-8601-82</a>
+      <a href="mailto:abbasalimolvi@gmail.com" class="contact-link">✉️ abbasalimolvi@gmail.com</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu Button -->
+<button class="mobile-menu-btn" id="mobileMenuBtn" style="display: none;">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<!-- Sidebar Overlay for Mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Main Content Area -->
+<div class="main-content" id="mainContent">
+  <div class="content-wrapper">
   <div class="card" id="mainCard">
 
     <!-- Header -->
     <header>
-      <img src="C:/Users/abbas/Downloads/Professional_Desk_Profile.png" alt="Abbas Molvi - Professional headshot" class="avatar-img" id="avatar" loading="lazy">
+      <img src="images/Professional_Desk_Profile.png" alt="Abbas Molvi - Professional headshot" class="avatar-img" id="avatar" loading="lazy">
       <div>
         <h1>Abbas Molvi</h1>
         <div class="role">Interim Regulations Manager — PST.AG · 3.5 years</div>
 
-        <div class="contact" style="margin-top:10px" role="list" aria-label="Contact information">
-          <div class="chip" role="listitem" tabindex="0" aria-label="Phone number">+91 8602-8601-82</div>
-          <div class="chip" role="listitem" tabindex="0" aria-label="Email address">abbasalimolvi@gmail.com</div>
-          <div class="chip" role="listitem" tabindex="0" aria-label="LinkedIn profile">linkedin.com/in/abbasmolvi-6a53a6202</div>
+        <div class="contact-modern" style="margin-top:15px" role="list" aria-label="Contact information">
+          <a href="tel:+918602860182" class="contact-item" role="listitem" aria-label="Call phone number">
+            <span class="contact-icon">📞</span>
+            <span class="contact-text">+91 8602-8601-82</span>
+          </a>
+          <a href="mailto:abbasalimolvi@gmail.com" class="contact-item" role="listitem" aria-label="Send email">
+            <span class="contact-icon">✉️</span>
+            <span class="contact-text">abbasalimolvi@gmail.com</span>
+          </a>
+          <a href="https://linkedin.com/in/abbasmolvi-6a53a6202" target="_blank" rel="noopener noreferrer" class="contact-item" role="listitem" aria-label="Visit LinkedIn profile">
+            <span class="contact-icon">💼</span>
+            <span class="contact-text">LinkedIn Profile</span>
+          </a>
         </div>
 
         <div class="tools" role="toolbar" aria-label="Interactive controls">
@@ -190,38 +283,8 @@
         </div>
       </div>
       <div class="answer-content">
-        <div class="hobbies-grid">
-          <div class="hobby-item">
-            <div class="hobby-icon">📊</div>
-            <h4>Finance</h4>
-            <p>Studying markets, frameworks and practical finance to understand how money moves.</p>
-          </div>
-          <div class="hobby-item">
-            <div class="hobby-icon">🧠</div>
-            <h4>Human Psychology</h4>
-            <p>Reading about decision-making and behaviour to better understand people and teams.</p>
-          </div>
-          <div class="hobby-item">
-            <div class="hobby-icon">🌍</div>
-            <h4>International Trade</h4>
-            <p>Continuously exploring tariff rules, customs processes and global trade patterns.</p>
-          </div>
-          <div class="hobby-item">
-            <div class="hobby-icon">🍽️</div>
-            <h4>Travel & Food</h4>
-            <p>Exploring diverse cultures through their cuisines and traditions. From Tanzanian street markets to Omani frankincense souks, I find belonging in the shared human experience of food and place.</p>
-          </div>
-          <div class="hobby-item">
-            <div class="hobby-icon">💭</div>
-            <h4>Philosophy</h4>
-            <p>Exploring existential questions and finding meaning in different cultural perspectives. I believe in the interconnectedness of all experiences and the wisdom found in diverse worldviews.</p>
-          </div>
-          <div class="hobby-item">
-            <div class="hobby-icon">🎵</div>
-            <h4>Music</h4>
-            <p>Discovering diverse musical traditions from around the world. From classical Indian ragas to East African rhythms, music connects me to different cultures and provides a universal language of emotion and expression.</p>
-          </div>
-        </div>
+        <p>I have diverse interests spanning finance, human psychology, international trade, travel & food, philosophy, and music. These passions drive my curiosity and help me understand different cultures and perspectives.</p>
+        <p><strong>💡 Explore my detailed hobbies and interests in the dedicated section →</strong></p>
       </div>
     </section>
 
@@ -245,7 +308,7 @@
 
         <!-- PST.AG — Interim Regulations Manager (current) -->
         <div class="timeline-item" data-company="pst-manager" id="item-pst-manager">
-          <img src="C:\Users\abbas\Downloads\PST_AG.png" alt="PST Logo" class="logo">
+          <img src="images/PST_AG.png" alt="PST Logo" class="logo">
           <div class="timeline-meta">
             <h4>PST.AG — Interim Regulations Manager (Customs Tariff)</h4>
             <span><strong>July 2023 – Present</strong> · Weimar, Germany (Remote)</span>
@@ -262,7 +325,7 @@
 
         <!-- PST.AG — Data Entry Specialist (previous role) -->
         <div class="timeline-item" data-company="pst-data" id="item-pst-data">
-          <img src="C:\Users\abbas\Downloads\PST_AG.png" alt="PST Logo" class="logo">
+          <img src="images/PST_AG.png" alt="PST Logo" class="logo">
           <div class="timeline-meta">
             <h4>PST.AG — Data Entry Specialist (Company Register/Sanctioned Party List/Customs Tariff)</h4>
             <span><strong>June 2022 – July 2023</strong> · Weimar, Germany (Remote)</span>
@@ -278,7 +341,7 @@
 
         <!-- OpenCV -->
         <div class="timeline-item" data-company="opencv">
-          <img src="C:\Users\abbas\Downloads\Opencv_Logo.png" alt="OpenCV Logo" class="logo">
+          <img src="images/Opencv_Logo.png" alt="OpenCV Logo" class="logo">
           <div class="timeline-meta">
             <h4>OpenCV University — Assistant Manager</h4>
             <span><strong>Oct 2020 – Mar 2022</strong> · San Diego (Remote)</span>
@@ -291,7 +354,7 @@
 
         <!-- Upwork -->
         <div class="timeline-item" data-company="upwork">
-          <img src="C:\Users\abbas\Downloads\Upwork-Logo-Vector.jpg" alt="Upwork Logo" class="logo">
+          <img src="images/Upwork-Logo-Vector.jpg" alt="Upwork Logo" class="logo">
           <div class="timeline-meta">
             <h4>Upwork — Freelancer</h4>
             <span><strong>Oct 2020 – Present</strong> · Remote</span>
@@ -309,7 +372,7 @@
 
         <!-- Inventive -->
         <div class="timeline-item" data-company="inventive">
-          <img src="C:\Users\abbas\Downloads\Inventive_Logo.png" alt="Inventive Logo" class="logo">
+          <img src="images/Inventive_Logo.png" alt="Inventive Logo" class="logo">
           <div class="timeline-meta">
             <h4>Inventive — Senior Quality Analyst</h4>
             <span><strong>Feb 2018 – Sep 2020</strong> · Pune, India</span>
@@ -322,7 +385,7 @@
 
         <!-- Convergys -->
         <div class="timeline-item" data-company="convergys">
-          <img src="C:\Users\abbas\Downloads\Convergys_Logo.png" alt="Convergys Logo" class="logo">
+          <img src="images/Convergys_Logo.png" alt="Convergys Logo" class="logo">
           <div class="timeline-meta">
             <h4>Convergys Intelligent Contact — Quality Analyst</h4>
             <span><strong>Oct 2016 – Jan 2018</strong> · Gurugram, India</span>
@@ -332,7 +395,7 @@
 
         <!-- CIS -->
         <div class="timeline-item" data-company="cis">
-          <img src="C:\Users\abbas\Downloads\CIS_Logo.jpg" alt="CIS Logo" class="logo">
+          <img src="images/CIS_Logo.jpg" alt="CIS Logo" class="logo">
           <div class="timeline-meta">
             <h4>Cyber Infrastructure (CIS) — Business Support Executive</h4>
             <span><strong>Nov 2014 – Aug 2016</strong> · Indore, India</span>
@@ -342,7 +405,7 @@
 
         <!-- LanceSoft -->
         <div class="timeline-item" data-company="lancesoft">
-          <img src="C:\Users\abbas\Downloads\LanceSoft_Logo.png" alt="Lancesoft Logo" class="logo">
+          <img src="images/LanceSoft_Logo.png" alt="Lancesoft Logo" class="logo">
           <div class="timeline-meta">
             <h4>LanceSoft, Inc. — Information Technology Recruiter</h4>
             <span><strong>Oct 2013 – Nov 2014</strong> · Indore, India</span>
@@ -352,7 +415,7 @@
 
         <!-- Teleperformance -->
         <div class="timeline-item" data-company="teleperformance">
-          <img src="C:\Users\abbas\Downloads\Teleperformance-Logo.jpg" alt="Teleperformance Logo" class="logo">
+          <img src="images/Teleperformance-Logo.jpg" alt="Teleperformance Logo" class="logo">
           <div class="timeline-meta">
             <h4>Teleperformance — Technical Support Specialist</h4>
             <span><strong>Sep 2012 – Sep 2013</strong> · Indore, India</span>
@@ -455,40 +518,42 @@
     <!-- Hobbies -->
     <section id="section-hobbies">
       <div class="label">Hobbies & Interests</div>
-      <div class="hobbies">
-        <div class="hobby-card">
-          <!-- Finance icon -->
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h16" stroke="#145bff" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="6" width="4" height="10" rx="1" stroke="#145bff" stroke-width="1.6"/><rect x="11" y="3" width="4" height="13" rx="1" stroke="#0b6f5b" stroke-width="1.6"/><rect x="16" y="9" width="4" height="7" rx="1" stroke="#145bff" stroke-width="1.6"/></svg>
-          <div><strong>Finance</strong><p>Studying markets, frameworks and practical finance to understand how money moves.</p></div>
+      <div class="hobbies-grid">
+        <div class="hobby-item">
+          <div class="hobby-icon">📊</div>
+          <h4>Finance</h4>
+          <p>Studying markets, frameworks and practical finance to understand how money moves.</p>
         </div>
-
-        <div class="hobby-card">
-          <!-- Psychology icon -->
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3a4 4 0 014 4v1a4 4 0 01-4 4 4 4 0 01-4-4V7a4 4 0 014-4z" stroke="#145bff" stroke-width="1.5"/><path d="M6 17a6 6 0 0112 0v0a2 2 0 01-2 2H8a2 2 0 01-2-2v0z" stroke="#0b6f5b" stroke-width="1.5"/></svg>
-          <div><strong>Human Psychology</strong><p>Reading about decision-making and behaviour to better understand people and teams.</p></div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🧠</div>
+          <h4>Human Psychology</h4>
+          <p>Reading about decision-making and behaviour to better understand people and teams.</p>
         </div>
-
-        <div class="hobby-card">
-          <!-- Trade icon -->
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h6" stroke="#145bff" stroke-width="1.6"/><path d="M21 12h-6" stroke="#0b6f5b" stroke-width="1.6"/><path d="M12 3v6" stroke="#145bff" stroke-width="1.6"/><path d="M12 15v6" stroke="#0b6f5b" stroke-width="1.6"/></svg>
-          <div><strong>International Trade</strong><p>Continuously exploring tariff rules, customs processes and global trade patterns.</p></div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🌍</div>
+          <h4>International Trade</h4>
+          <p>Continuously exploring tariff rules, customs processes and global trade patterns.</p>
         </div>
-
-        <div class="hobby-card">
-          <!-- Travel & Food icon -->
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 21h18" stroke="#145bff" stroke-width="1.6"/><path d="M7 21V7" stroke="#0b6f5b" stroke-width="1.6"/><path d="M11 21V4" stroke="#145bff" stroke-width="1.6"/><path d="M15 21V10" stroke="#0b6f5b" stroke-width="1.6"/></svg>
-          <div><strong>Travel & Food</strong><p>Exploring diverse cultures through their cuisines and traditions. From Tanzanian street markets to Omani frankincense souks, I find belonging in the shared human experience of food and place.</p></div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🍽️</div>
+          <h4>Travel & Food</h4>
+          <p>Exploring diverse cultures through their cuisines and traditions. From Tanzanian street markets to Omani frankincense souks, I find belonging in the shared human experience of food and place.</p>
         </div>
-
-        <div class="hobby-card">
-          <!-- Philosophy icon -->
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="#145bff" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="#0b6f5b" stroke-width="1.2"/></svg>
-          <div><strong>Philosophy</strong><p>Exploring existential questions and finding meaning in different cultural perspectives. I believe in the interconnectedness of all experiences and the wisdom found in diverse worldviews.</p></div>
+        <div class="hobby-item">
+          <div class="hobby-icon">💭</div>
+          <h4>Philosophy</h4>
+          <p>Exploring existential questions and finding meaning in different cultural perspectives. I believe in the interconnectedness of all experiences and the wisdom found in diverse worldviews.</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🎵</div>
+          <h4>Music</h4>
+          <p>Discovering diverse musical traditions from around the world. From classical Indian ragas to East African rhythms, music connects me to different cultures and provides a universal language of emotion and expression.</p>
         </div>
       </div>
     </section>
 
     <footer>© 2025 Abbas Molvi</footer>
+  </div>
   </div>
 </div>
 
