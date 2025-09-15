@@ -40,22 +40,40 @@ function speakText(text, onend){
   
   try {
     const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 0.9; // Slightly slower for better clarity
-    utter.pitch = 1;
+    utter.rate = 0.85; // Slightly slower for better clarity and consistency
+    utter.pitch = 0.95; // Slightly lower pitch for more masculine tone
     utter.volume = 0.8;
     
     // Wait for voices to load if they're not ready yet
     const speakWithVoice = () => {
-      const voices = window.speechSynthesis.getVoices();
+    const voices = window.speechSynthesis.getVoices();
       if(voices && voices.length > 0){
-        // Try to find a good English voice
-        let selectedVoice = voices.find(x => /en-US/i.test(x.lang)) || 
-                           voices.find(x => /en-GB/i.test(x.lang)) || 
-                           voices.find(x => /en/i.test(x.lang)) || 
-                           voices[0];
+        // Try to find a natural male voice with priority order
+        let selectedVoice = 
+          // First try: Male voices with specific names (most natural)
+          voices.find(x => /en-US/i.test(x.lang) && (
+            /david|daniel|alex|mark|mike|john|paul|steve|tom|brian|chris|matt|james|robert|william|michael|richard|charles|thomas|christopher|anthony|mark|donald|steven|paul|andrew|joshua|kenneth|kevin|brian|george|timothy|jason|jeffrey|ryan|jacob|gary|nicholas|eric|jonathan|stephen|larry|justin|scott|brandon|benjamin|samuel|gregory|frank|raymond|alexander|patrick|jack|dennis|jerry|tyler|aaron|jose|henry|douglas|adam|peter|nathan|zachary|kyle|walter|harold|jeremy|ethan|carl|keith|roger|gerald|arthur|ryan|juan|wayne|roy|ralph|eugene|louis|philip|bobby|johnny|billy|jordan|albert|alan|jesse|willie|gabriel|logan|wayne|ralph|eugene|louis|philip|bobby|johnny|billy|jordan|albert|alan|jesse|willie|gabriel|logan/i.test(x.name)
+          )) ||
+          // Second try: Male voices by gender (if available)
+          voices.find(x => /en-US/i.test(x.lang) && x.name.toLowerCase().includes('male')) ||
+          // Third try: Common male voice names
+          voices.find(x => /en-US/i.test(x.lang) && (
+            /microsoft.*david|google.*male|samantha|alex|daniel|mark|mike|john|paul|steve|tom|brian|chris|matt|james|robert|william|michael|richard|charles|thomas|christopher|anthony|mark|donald|steven|paul|andrew|joshua|kenneth|kevin|brian|george|timothy|jason|jeffrey|ryan|jacob|gary|nicholas|eric|jonathan|stephen|larry|justin|scott|brandon|benjamin|samuel|gregory|frank|raymond|alexander|patrick|jack|dennis|jerry|tyler|aaron|jose|henry|douglas|adam|peter|nathan|zachary|kyle|walter|harold|jeremy|ethan|carl|keith|roger|gerald|arthur|ryan|juan|wayne|roy|ralph|eugene|louis|philip|bobby|johnny|billy|jordan|albert|alan|jesse|willie|gabriel|logan/i.test(x.name)
+          )) ||
+          // Fourth try: Any English male voice
+          voices.find(x => /en/i.test(x.lang) && (
+            /david|daniel|alex|mark|mike|john|paul|steve|tom|brian|chris|matt|james|robert|william|michael|richard|charles|thomas|christopher|anthony|mark|donald|steven|paul|andrew|joshua|kenneth|kevin|brian|george|timothy|jason|jeffrey|ryan|jacob|gary|nicholas|eric|jonathan|stephen|larry|justin|scott|brandon|benjamin|samuel|gregory|frank|raymond|alexander|patrick|jack|dennis|jerry|tyler|aaron|jose|henry|douglas|adam|peter|nathan|zachary|kyle|walter|harold|jeremy|ethan|carl|keith|roger|gerald|arthur|ryan|juan|wayne|roy|ralph|eugene|louis|philip|bobby|johnny|billy|jordan|albert|alan|jesse|willie|gabriel|logan/i.test(x.name)
+          )) ||
+          // Fifth try: Any English voice
+          voices.find(x => /en-US/i.test(x.lang)) || 
+          voices.find(x => /en-GB/i.test(x.lang)) || 
+          voices.find(x => /en/i.test(x.lang)) || 
+          // Fallback: First available voice
+          voices[0];
+        
         if(selectedVoice) {
           utter.voice = selectedVoice;
-          console.log('Using voice:', selectedVoice.name, selectedVoice.lang);
+          console.log('Using voice:', selectedVoice.name, selectedVoice.lang, 'Gender:', selectedVoice.name.toLowerCase().includes('male') ? 'Male' : 'Unknown');
         }
       }
       
@@ -66,11 +84,11 @@ function speakText(text, onend){
       
       utter.onend = () => { 
         console.log('Speech synthesis ended');
-        if(onend) onend(); 
-      };
-      
-      utter.onerror = (event) => {
-        console.error('Speech synthesis error:', event.error);
+      if(onend) onend(); 
+    };
+    
+    utter.onerror = (event) => {
+      console.error('Speech synthesis error:', event.error);
         let errorMessage = 'Speech synthesis failed. ';
         switch(event.error) {
           case 'not-allowed':
@@ -107,10 +125,10 @@ function speakText(text, onend){
             errorMessage += 'Unknown error. Please try again.';
         }
         showNotification(errorMessage, 'error');
-        if(onend) onend();
-      };
-      
-      window.speechSynthesis.speak(utter);
+      if(onend) onend();
+    };
+    
+    window.speechSynthesis.speak(utter);
     };
     
     // If voices are not loaded yet, wait for them
@@ -148,7 +166,7 @@ function showNotification(message, type = 'info', duration = 3000) {
       </div>
     `;
   } else {
-    notification.textContent = message;
+  notification.textContent = message;
   }
   
   notification.style.cssText = `
@@ -173,10 +191,10 @@ function showNotification(message, type = 'info', duration = 3000) {
   
   // Auto-remove after duration (except loading)
   if (type !== 'loading') {
-    setTimeout(() => {
+  setTimeout(() => {
       if (notification.parentNode) {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
+    notification.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => notification.remove(), 300);
       }
     }, duration);
   }
@@ -658,6 +676,26 @@ function testSpeechSynthesis() {
   }
 }
 
+// Function to log available voices for debugging
+function logAvailableVoices() {
+  const voices = window.speechSynthesis.getVoices();
+  console.log('Available voices:');
+  voices.forEach((voice, index) => {
+    console.log(`${index + 1}. ${voice.name} (${voice.lang}) - ${voice.gender || 'Unknown gender'}`);
+  });
+  
+  // Log specifically male voices
+  const maleVoices = voices.filter(voice => 
+    voice.name.toLowerCase().includes('male') || 
+    /david|daniel|alex|mark|mike|john|paul|steve|tom|brian|chris|matt|james|robert|william|michael|richard|charles|thomas|christopher|anthony|mark|donald|steven|paul|andrew|joshua|kenneth|kevin|brian|george|timothy|jason|jeffrey|ryan|jacob|gary|nicholas|eric|jonathan|stephen|larry|justin|scott|brandon|benjamin|samuel|gregory|frank|raymond|alexander|patrick|jack|dennis|jerry|tyler|aaron|jose|henry|douglas|adam|peter|nathan|zachary|kyle|walter|harold|jeremy|ethan|carl|keith|roger|gerald|arthur|ryan|juan|wayne|roy|ralph|eugene|louis|philip|bobby|johnny|billy|jordan|albert|alan|jesse|willie|gabriel|logan/i.test(voice.name)
+  );
+  
+  console.log('Male voices found:', maleVoices.length);
+  maleVoices.forEach(voice => {
+    console.log(`- ${voice.name} (${voice.lang})`);
+  });
+}
+
 // Initialize performance optimizations and event listeners
 document.addEventListener('DOMContentLoaded', () => {
   lazyLoadImages();
@@ -669,13 +707,18 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('Speech synthesis may not be available');
   }
   
+  // Log available voices for debugging (with delay to ensure voices are loaded)
+  setTimeout(() => {
+    logAvailableVoices();
+  }, 2000);
+  
   // Initialize sidebar navigation
   initializeSidebar();
   initializePageNavigation();
   initializeSearch();
-  
-  /* Play intro button */
-  document.getElementById('playIntro').addEventListener('click', ()=>{
+
+/* Play intro button */
+document.getElementById('playIntro').addEventListener('click', ()=>{
     const button = document.getElementById('playIntro');
     const originalText = button.textContent;
     
@@ -699,29 +742,29 @@ document.addEventListener('DOMContentLoaded', () => {
         showNotification('Audio playback completed', 'success', 2000);
       });
     }, 500);
-  });
+});
 
-  /* Stop speech button */
-  document.getElementById('stopSpeech').addEventListener('click', ()=>{
-    if('speechSynthesis' in window) window.speechSynthesis.cancel();
-    document.querySelectorAll('.highlight').forEach(e=> e.classList.remove('highlight'));
-  });
+/* Stop speech button */
+document.getElementById('stopSpeech').addEventListener('click', ()=>{
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  document.querySelectorAll('.highlight').forEach(e=> e.classList.remove('highlight'));
+});
 
-  /* Guided tour: speak and highlight each section sequentially */
-  document.getElementById('startTour').addEventListener('click', ()=>{
+/* Guided tour: speak and highlight each section sequentially */
+document.getElementById('startTour').addEventListener('click', ()=>{
     const button = document.getElementById('startTour');
     const originalText = button.textContent;
     
-    if(!('speechSynthesis' in window)){
+  if(!('speechSynthesis' in window)){
       showNotification('Guided tour requires a browser with speech synthesis support.', 'warning');
-      return;
-    }
+    return;
+  }
     
     // Check if user has interacted with the page
     if(!window.userInteracted) {
       showNotification('Please click "Play 25s Intro" first to enable audio features.', 'info');
-      return;
-    }
+    return;
+  }
     
     // Show loading state
     button.disabled = true;
@@ -740,30 +783,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* Timeline expand/collapse (only one open) */
-  document.querySelectorAll('.timeline-item').forEach(item=>{
-    item.addEventListener('click', (e)=>{
-      if(e.target.tagName.toLowerCase() === 'a') return;
-      const content = item.querySelector('.timeline-content');
-      const isOpen = content.classList.contains('open');
-      closeAllTimeline();
-      if(!isOpen){
-        content.classList.add('open');
-        content.style.maxHeight = content.scrollHeight + "px";
-        setTimeout(()=> item.scrollIntoView({behavior:'smooth', block:'center'}), 120);
-      }
-    });
+document.querySelectorAll('.timeline-item').forEach(item=>{
+  item.addEventListener('click', (e)=>{
+    if(e.target.tagName.toLowerCase() === 'a') return;
+    const content = item.querySelector('.timeline-content');
+    const isOpen = content.classList.contains('open');
+    closeAllTimeline();
+    if(!isOpen){
+      content.classList.add('open');
+      content.style.maxHeight = content.scrollHeight + "px";
+      setTimeout(()=> item.scrollIntoView({behavior:'smooth', block:'center'}), 120);
+    }
   });
+});
 
-  /* Countries/Languages tooltips (click to toggle; click outside closes) */
-  document.querySelectorAll('ul.flags li').forEach(item=>{
-    item.addEventListener('click', (ev)=>{
-      ev.stopPropagation();
-      const t = item.querySelector('.tooltip');
-      const was = t && t.style.display === 'block';
-      document.querySelectorAll('.tooltip').forEach(x=>x.style.display='none');
-      if(t && !was) t.style.display = 'block';
-    });
+/* Countries/Languages tooltips (click to toggle; click outside closes) */
+document.querySelectorAll('ul.flags li').forEach(item=>{
+  item.addEventListener('click', (ev)=>{
+    ev.stopPropagation();
+    const t = item.querySelector('.tooltip');
+    const was = t && t.style.display === 'block';
+    document.querySelectorAll('.tooltip').forEach(x=>x.style.display='none');
+    if(t && !was) t.style.display = 'block';
   });
+});
 
   /* Country click handlers - modal only */
   document.querySelectorAll('#section-countries ul.flags li').forEach(item => {
@@ -790,8 +833,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* Download Resume - opens printable page and includes hobbies */
-  document.getElementById('downloadResume').addEventListener('click', ()=>{
+/* Download Resume - opens printable page and includes hobbies */
+document.getElementById('downloadResume').addEventListener('click', ()=>{
     const button = document.getElementById('downloadResume');
     const originalText = button.textContent;
     
@@ -800,40 +843,40 @@ document.addEventListener('DOMContentLoaded', () => {
     button.textContent = 'Generating PDF...';
     showNotification('Generating resume PDF...', 'loading');
     
-    const name = document.querySelector('h1').textContent;
-    const role = document.querySelector('.role').textContent;
-    const shortBio = document.getElementById('bio-text').outerHTML;
-    const items = Array.from(document.querySelectorAll('.timeline-item')).map(it=>{
-      const title = it.querySelector('h4').textContent;
-      const meta = it.querySelector('span').textContent;
-      const content = it.querySelector('.timeline-content').innerHTML;
-      return `<div style="margin-bottom:12px">
-                <h3 style="margin:0;font-size:16px">${title}</h3>
-                <div style="color:#555;margin:4px 0 8px">${meta}</div>
-                <div style="color:#222">${content}</div>
-              </div>`;
-    }).join('\n');
-    const countries = Array.from(document.querySelectorAll('#section-countries ul.flags li')).map(li=>li.textContent.trim());
-    const langs = Array.from(document.querySelectorAll('#section-langs ul.flags li')).map(li=>li.textContent.trim());
-    const hobbies = Array.from(document.querySelectorAll('#section-hobbies .hobby-card')).map(h=>{
-      return h.querySelector('strong').textContent + ' — ' + h.querySelector('p').textContent;
-    });
+  const name = document.querySelector('h1').textContent;
+  const role = document.querySelector('.role').textContent;
+  const shortBio = document.getElementById('bio-text').outerHTML;
+  const items = Array.from(document.querySelectorAll('.timeline-item')).map(it=>{
+    const title = it.querySelector('h4').textContent;
+    const meta = it.querySelector('span').textContent;
+    const content = it.querySelector('.timeline-content').innerHTML;
+    return `<div style="margin-bottom:12px">
+              <h3 style="margin:0;font-size:16px">${title}</h3>
+              <div style="color:#555;margin:4px 0 8px">${meta}</div>
+              <div style="color:#222">${content}</div>
+            </div>`;
+  }).join('\n');
+  const countries = Array.from(document.querySelectorAll('#section-countries ul.flags li')).map(li=>li.textContent.trim());
+  const langs = Array.from(document.querySelectorAll('#section-langs ul.flags li')).map(li=>li.textContent.trim());
+  const hobbies = Array.from(document.querySelectorAll('#section-hobbies .hobby-card')).map(h=>{
+    return h.querySelector('strong').textContent + ' — ' + h.querySelector('p').textContent;
+  });
 
-    const docHtml = `<!doctype html><html><head><meta charset="utf-8"><title>${name} — Resume</title>
-      <style>body{font-family:Arial,Helvetica,sans-serif;padding:24px;color:#111}h1{margin:0;font-size:24px}h2{margin-top:18px;font-size:18px;color:#145bff}h3{margin:8px 0;font-size:15px}p{margin:6px 0;color:#333}ul{margin:6px 0 12px 18px}.section{margin-top:14px}.meta{color:#666;font-size:13px}</style>
-      </head><body>
-      <h1>${name}</h1><div class="meta">${role}</div>
-      <div class="section"><h2>Summary</h2>${shortBio}</div>
-      <div class="section"><h2>Work Experience</h2>${items}</div>
-      <div class="section"><h2>Countries</h2><div>${countries.join(' · ')}</div></div>
-      <div class="section"><h2>Languages</h2><div>${langs.join(' · ')}</div></div>
-      <div class="section"><h2>Hobbies & Interests</h2><ul>${hobbies.map(h=>`<li>${h}</li>`).join('')}</ul></div>
-      <div style="margin-top:18px;color:#666;font-size:13px">Generated from interactive resume — ${new Date().toLocaleDateString()}</div>
-      </body></html>`;
+  const docHtml = `<!doctype html><html><head><meta charset="utf-8"><title>${name} — Resume</title>
+    <style>body{font-family:Arial,Helvetica,sans-serif;padding:24px;color:#111}h1{margin:0;font-size:24px}h2{margin-top:18px;font-size:18px;color:#145bff}h3{margin:8px 0;font-size:15px}p{margin:6px 0;color:#333}ul{margin:6px 0 12px 18px}.section{margin-top:14px}.meta{color:#666;font-size:13px}</style>
+    </head><body>
+    <h1>${name}</h1><div class="meta">${role}</div>
+    <div class="section"><h2>Summary</h2>${shortBio}</div>
+    <div class="section"><h2>Work Experience</h2>${items}</div>
+    <div class="section"><h2>Countries</h2><div>${countries.join(' · ')}</div></div>
+    <div class="section"><h2>Languages</h2><div>${langs.join(' · ')}</div></div>
+    <div class="section"><h2>Hobbies & Interests</h2><ul>${hobbies.map(h=>`<li>${h}</li>`).join('')}</ul></div>
+    <div style="margin-top:18px;color:#666;font-size:13px">Generated from interactive resume — ${new Date().toLocaleDateString()}</div>
+    </body></html>`;
     // Simulate processing delay for better UX
     setTimeout(() => {
       try {
-        const w = window.open('', '_blank', 'toolbar=0,location=0,menubar=0');
+  const w = window.open('', '_blank', 'toolbar=0,location=0,menubar=0');
         if(!w){ 
           showNotification('Popup blocked. Allow popups or use Print (Ctrl/Cmd+P).', 'warning');
           button.disabled = false;
