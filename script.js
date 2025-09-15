@@ -38,6 +38,9 @@ function speakText(text, onend){
     window.speechSynthesis.cancel();
   }
   
+  // Reset cancelled flag
+  window.speechCancelled = false;
+  
   try {
     const utter = new SpeechSynthesisUtterance(text);
     utter.rate = 0.85; // Slightly slower for better clarity and consistency
@@ -84,11 +87,15 @@ function speakText(text, onend){
       
       utter.onend = () => { 
         console.log('Speech synthesis ended');
-      if(onend) onend(); 
+        if(!window.speechCancelled && onend) onend(); 
     };
     
     utter.onerror = (event) => {
       console.error('Speech synthesis error:', event.error);
+      if(window.speechCancelled) {
+        // Suppress error notifications if user intentionally stopped speech
+        return;
+      }
         let errorMessage = 'Speech synthesis failed. ';
         switch(event.error) {
           case 'not-allowed':
@@ -125,7 +132,7 @@ function speakText(text, onend){
             errorMessage += 'Unknown error. Please try again.';
         }
         showNotification(errorMessage, 'error');
-      if(onend) onend();
+        if(!window.speechCancelled && onend) onend();
     };
     
     window.speechSynthesis.speak(utter);
@@ -722,6 +729,9 @@ document.getElementById('playIntro').addEventListener('click', ()=>{
     const button = document.getElementById('playIntro');
     const originalText = button.textContent;
     
+    // Clear any existing notifications
+    document.querySelectorAll('.notification').forEach(n => n.remove());
+    
     // Show loading state
     button.disabled = true;
     button.textContent = 'Loading...';
@@ -746,8 +756,30 @@ document.getElementById('playIntro').addEventListener('click', ()=>{
 
 /* Stop speech button */
 document.getElementById('stopSpeech').addEventListener('click', ()=>{
-  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  if('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    console.log('Speech synthesis stopped');
+    
+    // Set cancelled flag for current speech
+    window.speechCancelled = true;
+  }
+  
+  // Clear all highlights
   document.querySelectorAll('.highlight').forEach(e=> e.classList.remove('highlight'));
+  
+  // Clear all notifications
+  document.querySelectorAll('.notification').forEach(n => n.remove());
+  
+  // Reset tour state
+  window.tourInProgress = false;
+  
+  // Reset UI states for buttons
+  const playIntroBtn = document.getElementById('playIntro');
+  if (playIntroBtn) { playIntroBtn.disabled = false; playIntroBtn.textContent = 'Play 25s Intro ▶'; }
+  const startTourBtn = document.getElementById('startTour');
+  if (startTourBtn) { startTourBtn.disabled = false; startTourBtn.textContent = 'Start Guided Tour'; }
+
+  showNotification('Speech stopped', 'info', 2000);
 });
 
 /* Guided tour: speak and highlight each section sequentially */
@@ -766,6 +798,12 @@ document.getElementById('startTour').addEventListener('click', ()=>{
     return;
   }
     
+    // Clear any existing notifications
+    document.querySelectorAll('.notification').forEach(n => n.remove());
+    
+    // Set tour state
+    window.tourInProgress = true;
+    
     // Show loading state
     button.disabled = true;
     button.textContent = 'Starting Tour...';
@@ -777,6 +815,7 @@ document.getElementById('startTour').addEventListener('click', ()=>{
         // Reset button when tour ends
         button.disabled = false;
         button.textContent = originalText;
+        window.tourInProgress = false;
         showNotification('Guided tour completed!', 'success', 3000);
       });
     }, 800);
@@ -942,8 +981,16 @@ document.getElementById('downloadResume').addEventListener('click', ()=>{
 });
 
 function runTourSteps(index, onComplete){
+  // Check if tour was stopped
+  if(window.tourInProgress === false) {
+    console.log('Tour stopped by user');
+    document.querySelectorAll('.highlight').forEach(e=> e.classList.remove('highlight'));
+    return;
+  }
+  
   if(index >= tourSteps.length){
     document.querySelectorAll('.highlight').forEach(e=> e.classList.remove('highlight'));
+    window.tourInProgress = false;
     if(onComplete) onComplete();
     return;
   }
@@ -959,8 +1006,21 @@ function runTourSteps(index, onComplete){
   
   el.scrollIntoView({behavior:'smooth', block:'center'});
   setTimeout(()=>{
+    // Check again if tour was stopped during timeout
+    if(window.tourInProgress === false) {
+      console.log('Tour stopped during timeout');
+      return;
+    }
+    
     el.classList.add('highlight');
     speakText(step.text, ()=>{
+      // Check if tour was stopped during speech
+      if(window.tourInProgress === false) {
+        console.log('Tour stopped during speech');
+        el.classList.remove('highlight');
+        return;
+      }
+      
       setTimeout(()=> {
         el.classList.remove('highlight');
         runTourSteps(index+1, onComplete);
