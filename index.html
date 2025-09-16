@@ -7,6 +7,7 @@
 <title>About — Abbas Molvi</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css">
 <link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 <script src="script.js"></script>
 
 </head>
@@ -123,8 +124,8 @@
               <span class="contact-icon">✉️</span>
               <span class="contact-text">abbasalimolvi@gmail.com</span>
             </a>
-          </div>
-          
+        </div>
+
           <!-- Second line: LinkedIn, Upwork and Download Resume -->
           <div class="contact-row contact-profiles">
             <a href="https://linkedin.com/in/abbasmolvi-6a53a6202" target="_blank" rel="noopener noreferrer" class="contact-item profile-item" role="listitem" aria-label="Visit LinkedIn profile">
@@ -141,16 +142,16 @@
               <img src="images/pdf-svgrepo-com.svg" alt="PDF" class="btn-icon">
               <span>Download (PDF)</span>
             </button>
-          </div>
+        </div>
         </div>
 
       </div>
 
       <!-- cool header graphics -->
       <div class="header-right">
-        <div class="header-graphic" aria-hidden="true">
-          <div class="icon-blob" title="Global"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#145bff" stroke-width="1.4" fill="none"/><path d="M2 12h20M12 2c2.5 2.2 3 6 3 10s-.5 7.8-3 10" stroke="#0b6f5b" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-          <div class="icon-blob" title="Data"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6" width="18" height="12" rx="2" stroke="#145bff" stroke-width="1.4"/><path d="M7 10h10M7 14h6" stroke="#0b6f5b" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+      <div class="header-graphic" aria-hidden="true">
+        <div class="icon-blob" title="Global"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#145bff" stroke-width="1.4" fill="none"/><path d="M2 12h20M12 2c2.5 2.2 3 6 3 10s-.5 7.8-3 10" stroke="#0b6f5b" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        <div class="icon-blob" title="Data"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6" width="18" height="12" rx="2" stroke="#145bff" stroke-width="1.4"/><path d="M7 10h10M7 14h6" stroke="#0b6f5b" stroke-width="1.2" stroke-linecap="round"/></svg></div>
         </div>
         <div class="tools tools-vertical" role="toolbar" aria-label="Interactive controls">
           <button class="btn" id="playIntro" aria-label="Play 25 second introduction audio" title="Play audio introduction">Play 25s Intro ▶</button>
@@ -686,7 +687,26 @@
 
     <footer>© 2025 Abbas Molvi</footer>
   </div>
+</div>
+</div>
+
+<!-- Chat Assistant -->
+<button id="chatToggle" class="chat-toggle" aria-label="Open chat assistant" title="Chat with Abbas Assistant">💬</button>
+<div id="chatWidget" class="chat-widget" aria-live="polite" aria-hidden="true">
+  <div class="chat-header">
+    <div class="chat-title">Assistant</div>
+    <div class="chat-actions">
+      <button id="chatClear" class="chat-clear" aria-label="Clear chat" title="Clear chat">🧹</button>
+      <button id="chatClose" class="chat-close" aria-label="Close chat" title="Close">×</button>
+    </div>
   </div>
+  <div id="chatBody" class="chat-body" role="log"></div>
+  <div class="chat-suggestions" id="chatSuggestions" aria-hidden="true"></div>
+  <form id="chatForm" class="chat-input" autocomplete="off">
+    <input id="chatMessage" type="text" placeholder="Type your message..." aria-label="Chat message" />
+    <button type="submit" class="chat-send" aria-label="Send message">Send</button>
+  </form>
+  <div class="chat-hint">Tip: Ask about experience, resume, or guided tour.</div>
 </div>
 
 <!-- Modal Popup -->
@@ -702,5 +722,42 @@
     </div>
   </div>
 </div>
+
+<!-- PDF Options Modal -->
+<div id="pdfOptionsOverlay" class="dialog-overlay" aria-hidden="true" role="dialog" aria-labelledby="pdfDialogTitle">
+  <div class="dialog" role="document">
+    <h3 id="pdfDialogTitle">Export to PDF</h3>
+    <p style="margin-top:0;color:#64748b;font-size:13px">Choose what to include. The PDF will keep the grid look and a clean layout.</p>
+    <div class="dialog-grid">
+      <label><input type="checkbox" id="pdfIncludeHeader" checked> Header (name, role, contact)</label>
+      <label><input type="checkbox" id="pdfIncludeSummary" checked> Summary</label>
+      <label><input type="checkbox" id="pdfIncludeSkills" checked> Skills</label>
+      <label><input type="checkbox" id="pdfIncludeExperience" checked> Work Experience</label>
+      <label><input type="checkbox" id="pdfIncludeCountries"> Countries</label>
+      <label><input type="checkbox" id="pdfIncludeLanguages"> Languages</label>
+      <label><input type="checkbox" id="pdfIncludeHobbies"> Hobbies</label>
+    </div>
+    <div class="dialog-row">
+      <label style="display:flex;align-items:center;gap:8px">
+        Layout:
+        <select id="pdfLayout">
+          <option value="single">Single column</option>
+          <option value="two-col">Two column</option>
+        </select>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px">
+        Theme:
+        <select id="pdfTheme">
+          <option value="light">Light</option>
+          <option value="clean">Clean minimal</option>
+        </select>
+      </label>
+    </div>
+    <div class="dialog-actions">
+      <button id="pdfCancel" class="btn ghost" type="button">Cancel</button>
+      <button id="pdfGenerate" class="btn secondary" type="button">Generate PDF</button>
+    </div>
+  </div>
+  </div>
 </body>
 </html>

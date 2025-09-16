@@ -440,6 +440,362 @@ function initializeSearch() {
   });
 }
 
+/* Chat Assistant Logic */
+function initializeChatAssistant(){
+  const toggle = document.getElementById('chatToggle');
+  const widget = document.getElementById('chatWidget');
+  const closeBtn = document.getElementById('chatClose');
+  const body = document.getElementById('chatBody');
+  const suggestions = document.getElementById('chatSuggestions');
+  const form = document.getElementById('chatForm');
+  const input = document.getElementById('chatMessage');
+  if(!toggle || !widget || !body || !form || !input) return;
+
+  // Restore history for session only
+  const history = [];
+  history.forEach(msg=> appendMsg(msg.text, msg.role));
+
+  toggle.addEventListener('click', ()=>{
+    widget.classList.toggle('open');
+    widget.setAttribute('aria-hidden', widget.classList.contains('open') ? 'false' : 'true');
+    if(widget.classList.contains('open')) input.focus();
+  });
+  closeBtn && closeBtn.addEventListener('click', ()=>{
+    widget.classList.remove('open');
+    widget.setAttribute('aria-hidden','true');
+  });
+
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const text = input.value.trim();
+    if(!text) return;
+    appendMsg(text, 'user');
+    input.value='';
+    handleChat(text);
+    saveHistory();
+  });
+
+  // Always show welcome on load
+  widget.classList.add('open');
+  widget.setAttribute('aria-hidden','false');
+  if(history.length === 0){
+    appendMsg('Hi! How can I help you today? You can ask about my experience, download resume, or start a guided tour.', 'bot');
+  }
+  renderSuggestions(['Download resume','Show experience','Start guided tour','Open LinkedIn','Open Upwork','Contact details']);
+
+  function renderSuggestions(list){
+    if(!suggestions) return;
+    suggestions.innerHTML = '';
+    suggestions.setAttribute('aria-hidden','false');
+    list.forEach(text=>{
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'chat-suggestion';
+      chip.textContent = text;
+      chip.addEventListener('click', ()=> handleChat(text));
+      suggestions.appendChild(chip);
+    });
+  }
+
+  async function handleChat(text){
+    // Attempt AI hook if configured; else fallback
+    const aiReply = await getAIReply(text).catch(()=> null);
+    const reply = aiReply || generateReply(text);
+    appendMsg(reply, 'bot');
+    saveHistory();
+  }
+
+  async function getAIReply(text){
+    // Support Ollama (local) by default if available
+    const ollama = window.LLM_OLLAMA_ENDPOINT || 'http://localhost:11434/api/generate';
+    const model = window.LLM_OLLAMA_MODEL || 'llama3.1:8b';
+    try{
+      const res = await fetch(ollama, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({model, prompt: text, stream:false}) });
+      if(res.ok){
+        const data = await res.json();
+        if(data && data.response) return data.response.trim();
+      }
+    }catch(e){ /* ignore and fallback */ }
+    // OpenAI-compatible endpoint fallback
+    const endpoint = window.CHAT_API_ENDPOINT;
+    if(endpoint){
+      const res = await fetch(endpoint, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({message: text})});
+      if(res.ok){ const data = await res.json(); return (data.reply||'').trim(); }
+    }
+    throw new Error('no-endpoint');
+  }
+
+  function appendMsg(text, role){
+    const div = document.createElement('div');
+    div.className = `chat-msg ${role}`;
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function saveHistory(){
+    const msgs = Array.from(body.querySelectorAll('.chat-msg')).map(el=>({
+      text: el.textContent,
+      role: el.classList.contains('user') ? 'user' : 'bot'
+    }));
+    sessionStorage.setItem('chatHistory', JSON.stringify(msgs.slice(-50)));
+  }
+
+  function generateReply(text){
+    const t = text.toLowerCase();
+    const answers = [];
+    if(t.includes('resume')) answers.push('You can download my resume with the PDF button in the header, or use File > Print > Save as PDF for a full-page version.');
+    if(t.includes('experience')||t.includes('work')) answers.push('I have 10+ years across ITeS, international trade compliance, data/ETL, Python, AI automation, SEO, recruitment and more.');
+    if(t.includes('tour')||t.includes('guide')) answers.push('Use Start Guided Tour in the header; press Stop to end any time.');
+    if(t.includes('voice')||t.includes('audio')) answers.push('Speech uses a natural male voice where available. Click Play Intro first to enable audio permissions.');
+    if(t.includes('upwork')) answers.push('Upwork: https://www.upwork.com/freelancers/~01e048520f6cb273c4');
+    if(t.includes('linkedin')) answers.push('LinkedIn: https://linkedin.com/in/abbasmolvi-6a53a6202');
+    if(t.includes('contact')||t.includes('email')||t.includes('phone')) answers.push('Contact: ✉️ abbasalimolvi@gmail.com · 📞 +91 8602-8601-82');
+    if(t.includes('skills')) answers.push('Key skills: Trade compliance, ETL, Python, AI automation, SEO, recruitment, CRM/PM tools.');
+    if(answers.length) return answers.join(' ');
+    const fallbacks = [
+      'I can help with resume download, guided tour, experience, and contact details. What would you like to know?',
+      'Try asking: “Start guided tour”, “Show experience”, or “Download resume”.',
+      'Happy to help! Ask about my Upwork/LinkedIn, skills, or languages.'
+    ];
+    return fallbacks[Math.floor(Math.random()*fallbacks.length)];
+  }
+
+  // Clear chat
+  const clearBtn = document.getElementById('chatClear');
+  if(clearBtn){
+    clearBtn.addEventListener('click', ()=>{
+      body.innerHTML = '';
+      sessionStorage.removeItem('chatHistory');
+      appendMsg('Chat cleared. How can I assist you?', 'bot');
+      renderSuggestions(['Download resume','Show experience','Start guided tour']);
+      saveHistory();
+    });
+  }
+}
+
+/* PDF Exporter with options and html2pdf */
+function initializePdfExporter(){
+  const overlay = document.getElementById('pdfOptionsOverlay');
+  const btnCancel = document.getElementById('pdfCancel');
+  const btnGen = document.getElementById('pdfGenerate');
+  if(!overlay || !btnCancel || !btnGen) return;
+
+  btnCancel.addEventListener('click', ()=>{
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden','true');
+  });
+
+  btnGen.addEventListener('click', async ()=>{
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden','true');
+    showNotification('Generating PDF...', 'loading');
+
+    const include = {
+      header: document.getElementById('pdfIncludeHeader').checked,
+      summary: document.getElementById('pdfIncludeSummary').checked,
+      skills: document.getElementById('pdfIncludeSkills').checked,
+      experience: document.getElementById('pdfIncludeExperience').checked,
+      countries: document.getElementById('pdfIncludeCountries').checked,
+      languages: document.getElementById('pdfIncludeLanguages').checked,
+      hobbies: document.getElementById('pdfIncludeHobbies').checked,
+    };
+    const layout = document.getElementById('pdfLayout').value;
+    const theme = document.getElementById('pdfTheme').value;
+
+    // (Server rendering moved below after wrapper is composed)
+
+    // Build export document from selected sections only (ignores hidden page wrappers)
+    const wrapper = document.createElement('div');
+    wrapper.style.padding = '16px';
+    wrapper.className = 'pdf-root';
+    if(layout === 'two-col') wrapper.classList.add('pdf-two-col');
+    if(theme === 'clean') wrapper.classList.add('pdf-clean');
+
+    const sanitize = (node) => {
+      if(!node) return null;
+      // Remove interactive-only elements within the clone
+      node.querySelectorAll('.chat-toggle,.chat-widget,.tools,.tools-vertical,.sidebar,.sidebar-overlay,.mobile-menu-btn,.sidebar-toggle,.header-graphic,.dialog-overlay').forEach(el=> el.remove());
+      // Neutralize sticky/fixed positions inside the clone
+      node.querySelectorAll('*').forEach(el=>{
+        const cs = window.getComputedStyle(el);
+        if(cs.position === 'fixed' || cs.position === 'sticky') el.style.position = 'static';
+      });
+      return node;
+    };
+
+    const add = (selector, title) => {
+      const src = document.querySelector(selector);
+      if(!src) return;
+      const block = src.cloneNode(true);
+      sanitize(block);
+      // Ensure visibility regardless of site page routing
+      block.style.display = 'block';
+      // Optional section heading for clarity if needed (skip for header)
+      if(title){
+        const sectionWrap = document.createElement('section');
+        sectionWrap.className = 'section';
+        const h = document.createElement('h2');
+        h.textContent = title;
+        h.style.margin = '10px 0';
+        h.style.color = '#145bff';
+        h.style.fontSize = '18px';
+        sectionWrap.appendChild(h);
+        sectionWrap.appendChild(block);
+        wrapper.appendChild(sectionWrap);
+      } else {
+        wrapper.appendChild(block);
+      }
+    };
+
+    if(include.header) add('header', null);
+    if(include.summary) add('#summary-overview', '🧑\u200d💼 Summary');
+    if(include.skills) {
+      add('#section-skills', '🛠️ Skills');
+      // Standardize grids for PDF
+      wrapper.querySelectorAll('#section-skills .skills-grid').forEach(g=> g.classList.add('section-grid'));
+    }
+    if(include.experience) add('#section-timeline', '💼 Work Experience');
+    if(include.countries) add('#section-countries', '🌍 Countries');
+    if(include.languages) add('#section-langs', '🗣️ Languages');
+    if(include.hobbies) {
+      // Prefer the dedicated page content for Hobbies
+      if(document.querySelector('#page-hobbies #section-hobbies')){
+        add('#page-hobbies #section-hobbies', '🎯 Hobbies & Interests');
+      } else {
+        add('#section-hobbies', '🎯 Hobbies & Interests');
+      }
+      wrapper.querySelectorAll('#section-hobbies .hobbies-grid').forEach(g=> g.classList.add('section-grid'));
+    }
+
+    // Inject PDF-specific styles for clean spacing, emojis, and typography
+    const pdfStyle = document.createElement('style');
+    pdfStyle.textContent = `
+      .pdf-root{ width: 794px; max-width: 794px; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; color:#111; background:#fff }
+      .pdf-root *, .pdf-root *::before, .pdf-root *::after{ box-sizing: border-box }
+      .pdf-root h1{ margin: 0 0 6px 0; font-size: 26px; }
+      .pdf-root h2{ margin: 10px 0 8px; font-size: 18px; color:#145bff }
+      .pdf-root h3{ margin: 6px 0 6px; font-size: 15px; }
+      .pdf-root p{ margin: 4px 0; line-height: 1.45; }
+      .pdf-root ul{ margin: 4px 0 8px 18px; }
+      .pdf-root .section{ margin: 8px 0 12px; }
+      .pdf-root .section > *:first-child{ margin-top: 0 }
+      .pdf-root .section > *:last-child{ margin-bottom: 0 }
+      .pdf-root .page, .pdf-root .page-container, .pdf-root .wrap, .pdf-root .content-wrapper{ padding:0 !important; margin:0 !important; max-width:100% !important }
+      .pdf-root .section-grid{ display:grid; grid-template-columns: 1fr; gap: 12px; }
+      .pdf-two-col .section-grid{ grid-template-columns: 1fr 1fr; }
+      .pdf-root .avoid-break{ break-inside: avoid; page-break-inside: avoid; }
+      .pdf-clean *{ border-radius: 0 !important; box-shadow: none !important; }
+      .pdf-root .contact-landscape .contact-item{ border:1px solid rgba(0,0,0,0.08); background:#fafafa; color:#111 }
+      .page-break{ break-before: always; page-break-before: always; }
+    `;
+    wrapper.prepend(pdfStyle);
+
+    // Mark common cards to avoid page breaks
+    wrapper.querySelectorAll('.timeline-item,.skill-category,.hobby-item,.summary-card').forEach(el=> el.classList.add('avoid-break'));
+    
+    // If a PDF server endpoint is configured, prefer it for best fidelity
+    if(window.PDF_SERVER_ENDPOINT){
+      try{
+        const html = wrapper.outerHTML;
+        const res = await fetch(window.PDF_SERVER_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ html, include, layout, theme }) });
+        if(!res.ok) throw new Error('server-pdf-failed');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'Abbas_Molvi_Resume.pdf';
+        document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+        document.querySelectorAll('.notification-loading').forEach(n => n.remove());
+        showNotification('PDF downloaded successfully (server).', 'success', 2500);
+        return;
+      }catch(err){
+        console.warn('Server PDF failed, falling back to client:', err);
+      }
+    }
+
+    // Render to PDF via html2pdf
+    const opt = {
+      margin:       0.5,
+      filename:     'Abbas_Molvi_Resume.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+      pagebreak:    { mode: ['css', 'legacy'], avoid: ['.avoid-break'] }
+    };
+
+    try{
+      // Temporarily hide dynamic UI elements in live DOM to avoid capture glitches
+      document.querySelectorAll('.chat-toggle,.chat-widget,.tools,.tools-vertical').forEach(el=> el.classList.add('print-temp-hide'));
+      // Disable CSS animations/transitions during rasterization
+      const animStyle = document.createElement('style');
+      animStyle.id = 'pdf-anim-disable';
+      animStyle.textContent = `*{animation:none !important; transition:none !important}`;
+      document.head.appendChild(animStyle);
+      if(typeof html2pdf === 'undefined') throw new Error('html2pdf-missing');
+      await html2pdf().set(opt).from(wrapper).save();
+      document.getElementById('pdf-anim-disable')?.remove();
+      document.querySelectorAll('.print-temp-hide').forEach(el=> el.classList.remove('print-temp-hide'));
+      document.querySelectorAll('.notification-loading').forEach(n => n.remove());
+      showNotification('PDF downloaded successfully.', 'success', 2500);
+    }catch(err){
+      console.error('html2pdf failed, falling back to browser print:', err);
+      // Fallback to print dialog to ensure user can still export
+      fallbackPrint();
+    }
+
+    function fallbackPrint(){
+      const button = document.getElementById('downloadResume');
+      const originalHTML = button ? button.innerHTML : '';
+      if(button){ button.disabled = true; button.innerHTML = '<span>Preparing...</span>'; }
+      // Activate print mode styles on live DOM and print
+      document.documentElement.classList.add('print-mode');
+      document.body.classList.add('print-mode');
+      const cleanup = () => {
+        document.documentElement.classList.remove('print-mode');
+        document.body.classList.remove('print-mode');
+        if(button){ button.disabled = false; button.innerHTML = originalHTML; }
+        document.querySelectorAll('.notification-loading').forEach(n => n.remove());
+        showNotification('Use “Save as PDF” in the print dialog.', 'warning', 3000);
+      };
+      const onAfterPrint = () => { cleanup(); window.removeEventListener('afterprint', onAfterPrint); };
+      window.addEventListener('afterprint', onAfterPrint);
+      setTimeout(()=> window.print(), 200);
+    }
+  });
+}
+
+/* Sparkles + Welcome popup */
+function launchWelcomeEffects(){
+  // Sparkles
+  const container = document.createElement('div');
+  container.className = 'sparkle-container';
+  document.body.appendChild(container);
+  const emojis = ['✨','💫','🌟','✨','⭐'];
+  let count = 0;
+  const max = 60;
+  const spawn = () => {
+    if(count++ > max){ setTimeout(()=> container.remove(), 3000); return; }
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.top = '-10px';
+    s.style.animationDuration = (1.6 + Math.random()*1.8) + 's';
+    container.appendChild(s);
+    setTimeout(()=> s.remove(), 3000);
+    setTimeout(spawn, 80 + Math.random()*120);
+  };
+  spawn();
+
+  // Popup thanks (5 seconds)
+  const popup = document.createElement('div');
+  popup.className = 'popup-thanks';
+  popup.setAttribute('role','status');
+  popup.textContent = 'Thanks for visiting my profile! I hope you enjoy the experience ✨';
+  document.body.appendChild(popup);
+  setTimeout(()=> popup.remove(), 3000);
+}
+
 function performSearch(query) {
   const pages = document.querySelectorAll('.page');
   const navItems = document.querySelectorAll('.nav-item');
@@ -724,6 +1080,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initializePageNavigation();
   initializeSearch();
 
+  // Initialize Chat Assistant
+  initializeChatAssistant();
+  initializePdfExporter();
+
+  // Welcome sparkles + popup
+  launchWelcomeEffects();
+
 /* Play intro button */
 document.getElementById('playIntro').addEventListener('click', ()=>{
     const button = document.getElementById('playIntro');
@@ -735,7 +1098,7 @@ document.getElementById('playIntro').addEventListener('click', ()=>{
     // Show loading state
     button.disabled = true;
     button.textContent = 'Loading...';
-    showNotification('Preparing audio...', 'loading');
+    const loadingToast = showNotification('Preparing audio...', 'loading');
     
     // Check if this is the first user interaction
     if(!window.userInteracted) {
@@ -749,6 +1112,8 @@ document.getElementById('playIntro').addEventListener('click', ()=>{
         // Reset button when speech ends
         button.disabled = false;
         button.textContent = originalText;
+        // Remove loading toast if still present
+        document.querySelectorAll('.notification-loading').forEach(n => n.remove());
         showNotification('Audio playback completed', 'success', 2000);
       });
     }, 500);
@@ -769,6 +1134,8 @@ document.getElementById('stopSpeech').addEventListener('click', ()=>{
   
   // Clear all notifications
   document.querySelectorAll('.notification').forEach(n => n.remove());
+  // Extra: ensure loading toasts are removed
+  document.querySelectorAll('.notification-loading').forEach(n => n.remove());
   
   // Reset tour state
   window.tourInProgress = false;
@@ -807,7 +1174,7 @@ document.getElementById('startTour').addEventListener('click', ()=>{
     // Show loading state
     button.disabled = true;
     button.textContent = 'Starting Tour...';
-    showNotification('Starting guided tour...', 'loading');
+    const tourLoading = showNotification('Starting guided tour...', 'loading');
     
     // Small delay for better UX
     setTimeout(() => {
@@ -816,6 +1183,8 @@ document.getElementById('startTour').addEventListener('click', ()=>{
         button.disabled = false;
         button.textContent = originalText;
         window.tourInProgress = false;
+        // Remove loading toast if still present
+        document.querySelectorAll('.notification-loading').forEach(n => n.remove());
         showNotification('Guided tour completed!', 'success', 3000);
       });
     }, 800);
@@ -872,75 +1241,12 @@ document.querySelectorAll('ul.flags li').forEach(item=>{
     });
   });
 
-/* Download Resume - opens printable page and includes hobbies */
+/* Download Resume - print current page with print styles */
 document.getElementById('downloadResume').addEventListener('click', ()=>{
-    const button = document.getElementById('downloadResume');
-    const originalText = button.textContent;
-    
-    // Show loading state
-    button.disabled = true;
-    button.textContent = 'Generating PDF...';
-    showNotification('Generating resume PDF...', 'loading');
-    
-  const name = document.querySelector('h1').textContent;
-  const role = document.querySelector('.role').textContent;
-  const shortBio = document.getElementById('bio-text').outerHTML;
-  const items = Array.from(document.querySelectorAll('.timeline-item')).map(it=>{
-    const title = it.querySelector('h4').textContent;
-    const meta = it.querySelector('span').textContent;
-    const content = it.querySelector('.timeline-content').innerHTML;
-    return `<div style="margin-bottom:12px">
-              <h3 style="margin:0;font-size:16px">${title}</h3>
-              <div style="color:#555;margin:4px 0 8px">${meta}</div>
-              <div style="color:#222">${content}</div>
-            </div>`;
-  }).join('\n');
-  const countries = Array.from(document.querySelectorAll('#section-countries ul.flags li')).map(li=>li.textContent.trim());
-  const langs = Array.from(document.querySelectorAll('#section-langs ul.flags li')).map(li=>li.textContent.trim());
-  const hobbies = Array.from(document.querySelectorAll('#section-hobbies .hobby-card')).map(h=>{
-    return h.querySelector('strong').textContent + ' — ' + h.querySelector('p').textContent;
-  });
-
-  const docHtml = `<!doctype html><html><head><meta charset="utf-8"><title>${name} — Resume</title>
-    <style>body{font-family:Arial,Helvetica,sans-serif;padding:24px;color:#111}h1{margin:0;font-size:24px}h2{margin-top:18px;font-size:18px;color:#145bff}h3{margin:8px 0;font-size:15px}p{margin:6px 0;color:#333}ul{margin:6px 0 12px 18px}.section{margin-top:14px}.meta{color:#666;font-size:13px}</style>
-    </head><body>
-    <h1>${name}</h1><div class="meta">${role}</div>
-    <div class="section"><h2>Summary</h2>${shortBio}</div>
-    <div class="section"><h2>Work Experience</h2>${items}</div>
-    <div class="section"><h2>Countries</h2><div>${countries.join(' · ')}</div></div>
-    <div class="section"><h2>Languages</h2><div>${langs.join(' · ')}</div></div>
-    <div class="section"><h2>Hobbies & Interests</h2><ul>${hobbies.map(h=>`<li>${h}</li>`).join('')}</ul></div>
-    <div style="margin-top:18px;color:#666;font-size:13px">Generated from interactive resume — ${new Date().toLocaleDateString()}</div>
-    </body></html>`;
-    // Simulate processing delay for better UX
-    setTimeout(() => {
-      try {
-  const w = window.open('', '_blank', 'toolbar=0,location=0,menubar=0');
-        if(!w){ 
-          showNotification('Popup blocked. Allow popups or use Print (Ctrl/Cmd+P).', 'warning');
-          button.disabled = false;
-          button.textContent = originalText;
-          return; 
-        }
-        w.document.open(); 
-        w.document.write(docHtml); 
-        w.document.close(); 
-        w.focus();
-        
-        // Reset button
-        button.disabled = false;
-        button.textContent = originalText;
-        showNotification('Resume PDF generated successfully!', 'success', 3000);
-        
-        setTimeout(() => { w.print(); }, 500);
-      } catch (error) {
-        console.error('Error generating PDF:', error);
-        showNotification('Failed to generate PDF. Please try again.', 'error');
-        button.disabled = false;
-        button.textContent = originalText;
-      }
-    }, 1000);
-  });
+  // Open PDF options modal
+  const overlay = document.getElementById('pdfOptionsOverlay');
+  if(overlay){ overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false'); }
+});
 
   /* Modal close handlers */
   document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -1232,3 +1538,4 @@ document.addEventListener('keydown', (e) => {
     }
   }
 });
+
