@@ -297,16 +297,17 @@ body{
 /* Page Container and Navigation */
 .page-container {
   position: relative;
+  scroll-behavior: smooth;
 }
 
 .page {
-  display: none;
+  display: block;
+  scroll-margin-top: 20px;
+  padding-bottom: 20px;
   animation: fadeIn 0.3s ease-in-out;
 }
 
-.page.active {
-  display: block;
-}
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
@@ -362,6 +363,12 @@ body{
 .wrap{max-width:100%;margin:0 auto;padding:0}
 .card{background:transparent;border-radius:0;padding:0;box-shadow:none;overflow:visible}
 .card:hover{transform:none}
+/* Top Quote */
+.top-quote{margin:8px 0 14px; padding:10px 14px; border:1px solid rgba(20,91,255,0.15); border-radius:12px; background:linear-gradient(135deg, rgba(20,91,255,0.04), rgba(11,111,91,0.04)); color:#1a1d29; display:flex; align-items:center; gap:8px; font-weight:600}
+.top-quote .spark{filter: drop-shadow(0 2px 6px rgba(20,91,255,0.25));}
+.top-quote q{quotes:"“" "”";}
+.top-quote q:before{content:open-quote}
+.top-quote q:after{content:close-quote}
 /* Enhanced Header Styling */
 header {
   display: flex;
@@ -1006,6 +1013,10 @@ header {
   border-color: var(--accent);
 }
 
+/* Inline quote under profiles */
+.contact-quote-line{ margin-top:8px; color:#4b5563; font-style:italic; display:flex; align-items:center; gap:6px; }
+.contact-quote-line .spark{ filter: drop-shadow(0 2px 6px rgba(20,91,255,0.25)); }
+
 /* skills grid */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
 .skill{background:rgba(255,255,255,0.8);border-radius:10px;padding:12px;min-height:72px}
@@ -1016,16 +1027,32 @@ header {
 /* timeline */
 .label{font-weight:700;color:#17202a;margin-bottom:10px;font-size:16px}
 .timeline{position:relative;margin:8px 0 20px 0;padding-left:28px;border-left:3px solid #eef3ff;border-radius:6px;padding-bottom:6px}
+.timeline{ font-family: inherit }
 .timeline-item{margin-bottom:18px;position:relative;cursor:pointer;display:flex;gap:14px;align-items:flex-start;padding:8px;border-radius:10px;transition:background .18s ease}
 .timeline-item:hover{background:rgba(20,91,255,0.03)}
+/* donut charts removed */
 .logo{width:44px;height:44px;border-radius:8px;display:grid;place-items:center;background:#f3f7ff;color:var(--accent);font-weight:700;box-shadow:0 4px 12px rgba(20,91,255,0.06);font-size:12px;flex-shrink:0}
 .timeline-meta{flex:1}
-.timeline-item h4{margin:0;font-size:15px}
-.timeline-item span{display:block;font-size:13px;color:var(--muted);margin-top:6px}
+.timeline-item h4{margin:0;font-size:18px; line-height:1.4}
+.timeline-item h4{ display:flex; align-items:center; flex-wrap:nowrap; gap:16px }
+.timeline-company{ font-family: inherit; font-weight:900; color:#000000; font-size: clamp(220px, 32vw, 480px); letter-spacing:0.2px; text-transform: none; line-height:1.04; word-break: break-word; hyphens: auto; margin: 4px 0 }
+.timeline-item h4 .timeline-company{ display:inline }
+.timeline-item h4{ gap: 10px }
+
+@media (min-width: 1024px) {
+  .timeline-item h4{ font-size:20px }
+}
+.timeline-sep{ color:#94a3b8; display:none }
+.timeline-role{ font-family: inherit; background: linear-gradient(135deg, rgba(20,91,255,0.12), rgba(11,111,91,0.12)); color:#0b1220; border:1px solid rgba(20,91,255,0.3); padding:6px 14px; border-radius:999px; font-weight:800; font-size: clamp(20px, 2.6vw, 36px) }
+.timeline-item span{display:block;font-size: clamp(13px, 1.15vw, 17px); color:#4b5563;margin-top:6px; font-weight:500}
 .timeline-content{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.2,.8,.2,1), padding .2s ease;margin-top:8px}
-.timeline-content.open{padding-top:8px;padding-bottom:8px}
+.timeline-content.open{max-height:none;padding-top:8px;padding-bottom:8px}
 .timeline-bullets{margin:8px 0 0 18px}
-.timeline-bullets li{margin:6px 0;color:#333;font-size:14px}
+.timeline-bullets li{margin:8px 0;color:#1f2937;font-size: clamp(14px, 1.15vw, 17px); line-height:1.6; font-weight:400}
+.timeline-bullets li strong{ font-weight:700; color:#111827 }
+.timeline-content strong{ font-weight:700; color:#111827 }
+.timeline-content p{ font-size: clamp(14px, 1.15vw, 17px); line-height:1.6; color:#1f2937; font-weight:400 }
+.timeline-content em{ color:#374151 }
 
 /* flags & popup alternatives */
 ul.flags{list-style:none;padding:0;margin:8px 0;display:flex;flex-wrap:wrap;gap:12px}

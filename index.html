@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>About — Abbas Molvi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
@@ -19,7 +23,7 @@
       <img src="images/Professional_Desk_Profile.png" alt="Abbas Molvi" class="profile-mini-img">
       <div class="profile-mini-info">
         <h3>Abbas Molvi</h3>
-        <p>Interim Regulations Manager</p>
+        <p>Freelancer</p>
       </div>
     </div>
     <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
@@ -50,10 +54,16 @@
         <span class="nav-text">Work Experience</span>
       </a>
     </li>
-    <li class="nav-item" data-page="travel">
-      <a href="#travel" class="nav-link">
-        <span class="nav-icon">🌍</span>
-        <span class="nav-text">Travel & Countries</span>
+    <li class="nav-item" data-page="skills">
+      <a href="#skills" class="nav-link">
+        <span class="nav-icon">⚡</span>
+        <span class="nav-text">Skills</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="education">
+      <a href="#education" class="nav-link">
+        <span class="nav-icon">🎓</span>
+        <span class="nav-text">Education</span>
       </a>
     </li>
     <li class="nav-item" data-page="languages">
@@ -62,16 +72,16 @@
         <span class="nav-text">Languages</span>
       </a>
     </li>
+    <li class="nav-item" data-page="travel">
+      <a href="#travel" class="nav-link">
+        <span class="nav-icon">🌍</span>
+        <span class="nav-text">Travel & Countries</span>
+      </a>
+    </li>
     <li class="nav-item" data-page="hobbies">
       <a href="#hobbies" class="nav-link">
         <span class="nav-icon">🎯</span>
         <span class="nav-text">Hobbies & Interests</span>
-      </a>
-    </li>
-    <li class="nav-item" data-page="skills">
-      <a href="#skills" class="nav-link">
-        <span class="nav-icon">⚡</span>
-        <span class="nav-text">Skills</span>
       </a>
     </li>
   </ul>
@@ -105,12 +115,6 @@
       <div class="header-content">
         <div class="name-section">
           <h1 class="name-title">Abbas Molvi</h1>
-          <div class="name-subtitle">Interim Regulations Manager</div>
-        </div>
-        
-        <div class="company-section">
-          <div class="company-name">PST.AG</div>
-          <div class="experience-duration">3.5 years experience</div>
         </div>
 
         <div class="contact-landscape" style="margin-top:15px">
@@ -143,6 +147,10 @@
               <span>Download (PDF)</span>
             </button>
         </div>
+        <div class="contact-quote-line" aria-hidden="false">
+          <span class="spark">✨</span>
+          <em><strong>Success is not about being the best, but about always getting better!</strong></em>
+        </div>
         </div>
 
       </div>
@@ -165,157 +173,37 @@
     <!-- Professional Summary -->
     <section class="summary-section" id="summary-overview">
       <div class="summary-intro">
-        <p class="summary-main-text">
-          I'm a multi-skilled professional with <strong>10+ years of cross-functional experience</strong> in Information Technology Enabled Services (ITeS), International Trade Compliance, Data Scraping, Digital Marketing, AI Automation, Recruitment, Bookkeeping, Customer Support, SEO and eCommerce. I specialize in bridging business processes with technical solutions—combining data, compliance, and smart systems.
-        </p>
-        <p class="summary-focus-text">
-          Lately, I've focused on building <strong>AI-powered automation workflow tools</strong> along with custom Python scripts for XML transformation in SAP systems. My work includes ETL pipelines for unclassified trade data, feeding into SAP GTS 11, E4HANA, and S/4HANA environments.
-        </p>
-      </div>
-      
-      <div class="summary-skills">
-        <h3 class="skills-title">🔹 Key Skills & Domains</h3>
-        
-        <div class="skills-grid">
-          <!-- First row: International Trade Compliance (full width) -->
-          <div class="skill-category trade-compliance-full">
-            <div class="skill-header">
-              <span class="skill-icon">🌐</span>
-              <h4>International Trade Compliance & Data Intelligence</h4>
-            </div>
-            <ul class="skill-list">
-              <li>HTS/HS classification, SPL/SDN screening, and global import/export workflows</li>
-              <li>Duty rates, Anti-Dumping (ADD), and Countervailing Duties (CVD) interpretation</li>
-              <li>Familiar with PGA/OGA regulations (FDA, USDA, BIS, etc.)</li>
-              <li>Built ETL pipelines to process raw trade data for SAP systems (GTS 11, E4HANA, S/4HANA)</li>
-              <li>Experience with customs data from CBP, USITC and authorities across US, Switzerland, India, Russia, Qatar, Macedonia, Moldova, Albania, Cuba, Kazakhstan, Algeria, Malaysia, Vietnam, Pakistan, Bangladesh, Sri Lanka, and East Africa</li>
-              <li>Data scraping from global customs portals; skilled in cleansing, transformation, and reporting</li>
-            </ul>
-          </div>
-          
-          <!-- Second row: AI/Python and Lead Generation side by side -->
-          <div class="skill-category">
-            <div class="skill-header">
-              <span class="skill-icon">💡</span>
-              <h4>AI, Python & Workflow Automation</h4>
-            </div>
-            <ul class="skill-list">
-              <li>Python scripting to automate SAP XML data handling</li>
-              <li>ETL development for compliance and structured reporting</li>
-              <li>AI integrations using ChatGPT/Gemini/Claude, Zapier, Notion AI</li>
-            </ul>
-          </div>
-          
-          <div class="skill-category">
-            <div class="skill-header">
-              <span class="skill-icon">📊</span>
-              <h4>Lead Generation & Web Management</h4>
-            </div>
-            <ul class="skill-list">
-              <li>B2B lead gen using BANT, MQL, SQL, HQL models</li>
-              <li>WordPress admin and Cloudflare hosting experience</li>
-            </ul>
-          </div>
-          
-          <!-- Third row: Other skills -->
-          <div class="skill-category">
-            <div class="skill-header">
-              <span class="skill-icon">📈</span>
-              <h4>SEO & Digital Marketing</h4>
-            </div>
-            <ul class="skill-list">
-              <li>Keyword research, SEO audits, and SEMrush analysis</li>
-              <li>Google Ads setup and optimization</li>
-              <li>Social media management via Hootsuite; CTR and engagement tracking</li>
-            </ul>
-          </div>
-          
-          <div class="skill-category">
-            <div class="skill-header">
-              <span class="skill-icon">👥</span>
-              <h4>Recruitment & Talent Sourcing</h4>
-            </div>
-            <ul class="skill-list">
-              <li>Talent acquisition via LinkedIn Navigator, Dice, Techfetch, Monster, Indeed</li>
-              <li>Roles across IT, compliance, marketing, and eCommerce</li>
-            </ul>
-          </div>
-          
-          <div class="skill-category">
-            <div class="skill-header">
-              <span class="skill-icon">🗂</span>
-              <h4>CRM, PM & Finance Tools</h4>
-            </div>
-            <ul class="skill-list">
-              <li>CRMs: Salesforce, Zoho, Microsoft Dynamics, JIRA</li>
-              <li>PM tools: Asana, ClickUp, Basecamp</li>
-              <li>Bookkeeping with QuickBooks and Xero</li>
-            </ul>
-          </div>
-          
-          <div class="skill-category">
-            <div class="skill-header">
-              <span class="skill-icon">🛒</span>
-              <h4>eCommerce & Crowdfunding</h4>
-            </div>
-            <ul class="skill-list">
-              <li>Managed Shopify, Amazon, eBay, Craigslist</li>
-              <li>Launched and supported campaigns on Kickstarter and IndieGoGo</li>
-            </ul>
-          </div>
-        </div>
+        <p class="summary-main-text">🌟 Dynamic professional with 12+ years of experience spanning International Trade Compliance, Quality Assurance,
+        Technical Support, Recruitment, B2B lead generation, and EdTech operations. Proven track record of driving operational
+        excellence, optimizing compliance workflows, and ensuring high-quality client and customer engagement across global
+        markets.</p>
+        <p class="summary-main-text">🤝 Recognized for client-facing leadership, cross-functional collaboration, and mentoring,
+          with the ability to adapt
+          quickly to new domains while consistently exceeding performance metrics and driving process improvements across
+          diverse
+          industries and global teams.</p>
+        <p class="summary-main-text">💻 Earlier career success includes delivering enterprise-level technical support
+          (Microsoft, Dropbox, Akamai),
+          full-cycle IT & non-IT recruitment for Fortune 500 clients, and quality evaluation for telecom and B2B demand
+          generation
+          campaigns. Experienced in SEO-driven content management, digital marketing, and eCommerce platforms, with hands-on
+          involvement in crowdfunding campaigns and online learning ecosystems.</p>
+        <p class="summary-main-text">🌍 Skilled in trade compliance management (HTS/HS classification, ADD/CVD interpretation, PGA/OGA regulations), ETL
+        pipeline development, and data intelligence using Python, SQL, and SAP systems. Adept at leveraging AI, automation, and
+        workflow optimization to streamline reporting, improve efficiency, and enhance decision-making.</p>
+
         
       </div>
     </section>
 
-    <!-- Presentation Questions -->
-    <section class="intro" id="section-bio" aria-label="Presentation Questions">
-      <p style="margin:0;font-weight:700;font-size:18px;color:#145bff">Three Key Questions</p>
-      <p id="bio-text" style="margin-top:12px;font-size:16px;line-height:1.6">
-        Let me answer the three questions that matter most for our conversation today.
-      </p>
-    </section>
+    
 
-    <!-- Question 1: PST.AG Role & Experience -->
-    <section class="question-section" id="question-1" role="region" aria-labelledby="question-1-title">
-      <div class="question-header">
-        <div class="question-number" aria-hidden="true">1</div>
-        <div class="question-content">
-          <h2 id="question-1-title">How long have you been with PST.AG and in which role? Your favourite part of responsibilities?</h2>
-        </div>
-      </div>
-      <div class="answer-content">
-        <div class="role-highlight">
-          <div class="role-title">Interim Regulations Manager (Customs Tariff)</div>
-          <div class="role-duration">3.5 years at PST.AG</div>
-          <div class="role-location">Weimar, Germany (Remote)</div>
-        </div>
-        <div class="responsibilities">
-          <h3>My Key Responsibilities at PST.AG:</h3>
-          <ul>
-            <li><strong>ETL Pipeline Development:</strong> Design and maintain data transformation pipelines that process thousands of tariff updates daily, ensuring 99.9% accuracy in regulatory data delivery</li>
-            <li><strong>SAP Integration:</strong> Transform complex legal documents into machine-readable formats for SAP GTS and S/4HANA systems, reducing manual processing time by 80%</li>
-            <li><strong>Quality Assurance:</strong> Implement automated validation rules and quality checks that catch inconsistencies before they reach enterprise systems</li>
-            <li><strong>Process Optimization:</strong> Lead continuous improvement initiatives that have reduced data processing time from 48 hours to 4 hours per update cycle</li>
-            <li><strong>Team Leadership:</strong> Mentor junior analysts and coordinate with legal, technical, and business stakeholders across multiple time zones</li>
-            <li><strong>Compliance Monitoring:</strong> Track regulatory changes across 15+ countries and ensure timely updates to tariff databases</li>
-          </ul>
-        </div>
-        <div class="favorite-part">
-          <h3>What I Love Most About My Role:</h3>
-          <p>I absolutely love being the <strong>bridge between legal complexity and technological innovation</strong>. Every day, I take intricate regulatory documents—executive orders, trade agreements, customs notifications—and transform them into clean, structured data that powers enterprise systems. It's like being a translator, but instead of languages, I translate legal requirements into machine logic.</p>
-          <p>What excites me most is the <strong>problem-solving aspect</strong>. When a new regulation comes in, I get to figure out: How do we structure this data? What validation rules do we need? How can we automate this process? It's like solving puzzles that have real-world impact on global trade.</p>
-          <p>The <strong>global scope</strong> is also fascinating—I work with data from countries I've actually visited, which gives me unique insights into how different regulatory systems work. It's the perfect blend of my technical skills, international experience, and passion for making complex things simple.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Question 2: Where I'm From & Travel Recommendation -->
-    <section class="question-section" id="question-2" role="region" aria-labelledby="question-2-title">
-      <div class="question-header">
+    <!-- Travel intro content (moved to Travel page by script) -->
+    <section class="question-section" id="question-2" role="region" aria-labelledby="question-2-title" style="display:none">
+      <div class="question-header" style="display:none">
         <div class="question-number" aria-hidden="true">2</div>
         <div class="question-content">
-          <h2 id="question-2-title">Where are you from and what is one place you recommend to visit if we ever travel to your town?</h2>
+          <h2 id="question-2-title">Travel Intro</h2>
         </div>
       </div>
       <div class="answer-content">
@@ -348,14 +236,6 @@
               <div class="country-details">
                 <h4>UAE (Modern Trade Hub)</h4>
                 <p>Dubai and Abu Dhabi showed me how vision and infrastructure can transform a region. The blend of traditional souks and modern malls, the multicultural workforce, and the focus on innovation taught me about global business dynamics and cultural integration.</p>
-              </div>
-            </div>
-            
-            <div class="country-experience">
-              <div class="country-flag fi fi-gb"></div>
-              <div class="country-details">
-                <h4>United Kingdom (Professional Development)</h4>
-                <p>London's financial district, Manchester's industrial heritage, and Birmingham's diversity taught me about structured business processes, regulatory frameworks, and how to work effectively in a multicultural professional environment.</p>
               </div>
             </div>
             
@@ -393,44 +273,136 @@
           </div>
         </div>
         
-        <div class="travel-recommendation">
-          <h3>My #1 Travel Recommendation:</h3>
-          <div class="recommendation-card">
-            <div class="hobby-icon">⭐</div>
-            <div class="rec-content">
-              <h4>Start with Local Markets & Food Streets</h4>
-              <p>If we travel together, I always recommend starting at <strong>local markets and food streets</strong> to experience culture firsthand. From Tanzanian street markets with their aromatic spices to Omani frankincense souks, from Egyptian koshari stalls to British fish and chip shops - this is where you truly understand a place.</p>
-              <p><em>"The best way to understand a culture is through its food and the people who make it. Every market tells a story of the community, its history, and its aspirations."</em></p>
-            </div>
-          </div>
-        </div>
+        <div class="travel-recommendation"></div>
       </div>
     </section>
 
-    <!-- Question 3: Hobbies -->
-    <section class="question-section" id="question-3" role="region" aria-labelledby="question-3-title">
-      <div class="question-header">
-        <div class="question-number" aria-hidden="true">3</div>
-        <div class="question-content">
-          <h2 id="question-3-title">Your hobby?</h2>
-        </div>
-      </div>
-      <div class="answer-content">
-        <p>I have diverse interests spanning finance, human psychology, international trade, travel & food, philosophy, and music. These passions drive my curiosity and help me understand different cultures and perspectives.</p>
-        <p><strong>💡 Explore my detailed hobbies and interests in the dedicated section →</strong></p>
-      </div>
-    </section>
+    
 
     <!-- Skills -->
     <section id="section-skills">
-      <div class="label">Key skills & domains</div>
-      <div class="grid">
-        <div class="skill"><h5>International Trade Compliance</h5><p>HTS/HS classification, duty & tariff interpretation, ADD/CVD guidance, and PGA/OGA requirements for global imports/exports.</p></div>
-        <div class="skill"><h5>ETL & Data Transformation</h5><p>Designed ETL pipelines to ingest raw customs data, cleanse and normalize tariff rules, and prepare datasets for SAP GTS / S/4HANA.</p></div>
-        <div class="skill"><h5>Python & Automation</h5><p>Custom Python scripts for XML transformations, SAP-ready exports, and automation of repetitive compliance workflows.</p></div>
-        <div class="skill"><h5>AI & Workflow Integrations</h5><p>Integrated LLMs and automation tools (ChatGPT/Gemini/Claude, Zapier, Notion AI) to accelerate content and data workflows.</p></div>
-        <div class="skill"><h5>Digital Marketing & SEO</h5><p>Keyword research, ads setup, and analytics-driven content optimization to improve discovery and engagement.</p></div>
-        <div class="skill"><h5>Recruitment & Operations</h5><p>End-to-end talent sourcing, hiring coordination, and operations support across IT, compliance, and customer-facing teams.</p></div>
+      <div class="label">Skills & Domains</div>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">🌍</span><h4>International Trade Compliance & Data Intelligence</h4></div>
+          <ul class="skill-list">
+            <li>Duty rates, Anti-Dumping Duties (ADD), Countervailing Duties (CVD) interpretation</li>
+            <li>Familiar with PGA/OGA regulations (FDA, USDA, BIS, etc.)</li>
+            <li>Customs data analysis from CBP, USITC, and international authorities (US, Switzerland, India, Russia, Qatar, Macedonia, Moldova, Albania, Cuba, Kazakhstan, Algeria, Malaysia, Vietnam, Pakistan, Bangladesh, Sri Lanka, East Africa)</li>
+            <li>Web scraping, data cleansing, transformation, and compliance reporting</li>
+            <li>Client-facing compliance support & SLA management</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">🤖</span><h4>AI, Python & Workflow Automation</h4></div>
+          <ul class="skill-list">
+            <li>Python scripting to automate SAP XML data handling and reporting</li>
+            <li>Built ETL pipelines for SAP systems (GTS 11, E4HANA, S/4HANA)</li>
+            <li>Workflow automation & AI integrations (ChatGPT, Gemini, Claude, Make AI)</li>
+            <li>Data analysis with Pandas, SQL, and Excel (Advanced)</li>
+            <li>Automation for web scraping, lead data processing, and CRM data entry</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">☎️</span><h4>Technical Support & Customer Experience</h4></div>
+          <ul class="skill-list">
+            <li>End-to-end support for Microsoft, Dropbox, and Akamai products</li>
+            <li>Licensing, activation, subscription management via Microsoft Admin Panel</li>
+            <li>Multi-channel support: Calls, Email, Chat</li>
+            <li>Case management and escalation tracking (Microsoft Dynamics, AT&T CRM)</li>
+            <li>Strong CSAT through empathetic communication & quick resolution</li>
+            <li>Telecom processes knowledge, SOP adherence, compliance in interactions</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">📝</span><h4>Quality Assurance & Process Improvement</h4></div>
+          <ul class="skill-list">
+            <li>Call/email/chat monitoring (SOAR, iLead, CRM QA platforms)</li>
+            <li>B2B lead quality evaluation (BANT, MQL, SQL, HQL models)</li>
+            <li>ABM campaign audits, TAL checks, suppression list management</li>
+            <li>Coaching, training, onboarding to maintain QA standards</li>
+            <li>Calibration sessions and feedback for performance optimization</li>
+            <li>Root-cause analysis; contribution to process upgrades</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">📊</span><h4>Lead Generation & Business Development</h4></div>
+          <ul class="skill-list">
+            <li>B2B lead generation for Microsoft, IBM, Oracle, Salesforce, Adobe, ZoomInfo, Zendesk</li>
+            <li>Lead models (BANT, MQL, SQL, HQL) and ABM campaigns</li>
+            <li>Prospect and client listening programs to improve outreach</li>
+            <li>CRM-based lead tracking and reporting</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">📈</span><h4>SEO, Content & Digital Marketing</h4></div>
+          <ul class="skill-list">
+            <li>Keyword research, SEO audits, SEMrush-driven optimization</li>
+            <li>Blog proofing, editing, publishing (WordPress Elementor)</li>
+            <li>Google Ads campaign setup & optimization</li>
+            <li>Crowdfunding: Kickstarter/IndieGoGo strategy and execution</li>
+            <li>Social media management (Hootsuite, campaign analytics, CTR tracking)</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">👥</span><h4>Recruitment & Talent Acquisition</h4></div>
+          <ul class="skill-list">
+            <li>Full-cycle recruitment (sourcing, screening, negotiation, onboarding)</li>
+            <li>Roles: IT (Java, Cybersecurity, DBA), Non-IT (Finance, Legal, Risk, Audit), niche (CV/ML, eCommerce)</li>
+            <li>Top-college hiring (IIT, IIIT, NIT, BITS, IISc)</li>
+            <li>Platforms: LinkedIn Navigator, Dice, Techfetch, CareerBuilder, Monster, Indeed, Naukri, Internshala</li>
+            <li>Resume formatting, rate confirmation, candidate engagement</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">🗂</span><h4>CRM, PM & Finance Tools</h4></div>
+          <ul class="skill-list">
+            <li>CRMs: Salesforce, Zoho, Microsoft Dynamics, AT&T CRM, Zendesk</li>
+            <li>Project Management: JIRA, Asana, Basecamp, ClickUp, Mattermost</li>
+            <li>Finance: QuickBooks, Xero, Excel reporting</li>
+            <li>Ticketing: Helpdesk platforms for student/client support</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">🛒</span><h4>eCommerce & Web Management</h4></div>
+          <ul class="skill-list">
+            <li>Shopify, Amazon, eBay, Craigslist store setup & management</li>
+            <li>Website development & management (HTML/CSS, WordPress, Cloudflare hosting)</li>
+            <li>Campaign management for online sales and promotions</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">💡</span><h4>Soft Skills & Leadership</h4></div>
+          <ul class="skill-list">
+            <li>Stakeholder & client management (exec reporting, escalation handling)</li>
+            <li>Cross-cultural communication (US, EU, APAC, MENA regions)</li>
+            <li>Coaching, mentoring, and training new team members</li>
+            <li>Strong multitasking in high-pressure, fast-paced environments</li>
+            <li>Data-driven decision-making and process optimization</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="section-education" role="region" aria-labelledby="education-label">
+      <div class="label" id="education-label">Education</div>
+      <div class="hobbies-grid">
+        <div class="hobby-item">
+          <div class="hobby-icon">🎓</div>
+          <h4>Degree / Program</h4>
+          <p>Add your degree, institution, and year.</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">📜</div>
+          <h4>Certification</h4>
+          <p>Add certifications or courses relevant to your work.</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🏅</div>
+          <h4>Achievements</h4>
+          <p>Add notable academic achievements or awards.</p>
+        </div>
       </div>
     </section>
 
@@ -439,65 +411,83 @@
       <div class="label">Work Experience Timeline</div>
       <div class="timeline" id="timelineRoot">
 
-        <!-- PST.AG — Interim Regulations Manager (current) -->
+        <!-- PST.AG — International Trade Compliance & Regulations Manager -->
         <div class="timeline-item" data-company="pst-manager" id="item-pst-manager">
           <img src="images/PST_AG.png" alt="PST Logo" class="logo">
           <div class="timeline-meta">
-            <h4>PST.AG — Interim Regulations Manager (Customs Tariff)</h4>
-            <span><strong>July 2023 – Present</strong> · Weimar, Germany (Remote)</span>
+            <h4><span class="timeline-company">PST.AG</span> <span class="timeline-sep">•</span> <span class="timeline-role">Regulations Manager</span></h4>
+            <span><strong>Jun 2022 – Sep 2025</strong> · Weimar, Germany (Remote)</span>
             <div class="timeline-content">
-              <p>Responsible for leading tariff-data delivery and compliance transformation for enterprise ingestion.</p>
+              <p>As a Regulations Manager for International Trade Compliance, I managed end-to-end operations for assigned countries,
+              coordinating between clients, internal teams, and executive leadership. My role involved assigning workloads, mentoring
+              teammates, coordinating with the CEO on process setup and improvements, and directly engaging with clients for
+              compliance and data-related issue resolution.</p>
               <ul class="timeline-bullets">
-                <li>Drive ETL & data quality initiatives to ensure regulatory updates are machine-ready for SAP GTS / S/4HANA.</li>
-                <li>Implement process improvements that reduce manual corrections and improve delivery SLAs.</li>
-                <li>Coordinate cross-functional stakeholders and mentor junior analysts.</li>
+                <li>Interpreted duty rates, Anti-Dumping Duties (ADD), and Countervailing Duties (CVD) for accurate cost and compliance
+                reporting.</li>
+                <li>Served as the primary point of contact for global clients, handling issue resolution, compliance clarifications, and
+                reporting directly with clients to ensure smooth operations.</li>
+                <li>Coordinated with the CEO and senior leadership to design, test, and roll out new compliance workflows.</li>
+                <li>Applied knowledge of PGA/OGA regulations including FDA, USDA, BIS, and other relevant authorities.</li>
+                <li>Mentored and guided team members on trade compliance best practices, HTS/HSC accuracy, and data quality standards.</li>
+                <li>Worked closely with the CEO and leadership team to design, refine, and implement compliance processes and SOPs.</li>
+                <li>Acted as the primary contact for clients, handling escalations, resolving compliance issues, and ensuring SLA
+                adherence.</li>
+                <li>Built ETL pipelines to process raw trade and customs data for integration into SAP GTS 11, E4HANA, and S/4HANA
+                systems.</li>
+                <li>Design and maintain data transformation pipelines that process thousands of tariff updates daily, ensuring 99.9%
+                accuracy in regulatory data delivery.</li>
+                <li>Conducted data scraping from global customs portals, performing data cleansing and transformation.</li>
+                <li>Managed and analyzed customs and trade data from multiple authorities including CBP, USITC, and global customs
+                agencies across the US, Switzerland, India, Russia, Qatar, Macedonia, Moldova, Albania, Cuba, Kazakhstan, Algeria,
+                Malaysia, Vietnam, Pakistan, Bangladesh, Sri Lanka, and East Africa.</li>
               </ul>
+              <strong>Tools & Technologies Used:</strong>
+              <ul class="timeline-bullets">
+              <li><strong>CRM & Project Management:</strong> JIRA, ZenDesk, Mattermost</li>
+              <li><strong>Data Processing & ETL:</strong> Python, SQL, Excel, Pandas, Apache Ni-Fi, etc.</li>
+              <li><strong>Web Scraping & Automation:</strong> Dexi, Python (BeautifulSoup, Selenium)</li>
+              <li><strong>Customs & Trade Data Sources:</strong> CBP, USITC, various global customs portals</li>
             </div>
           </div>
         </div>
 
-        <!-- PST.AG — Data Entry Specialist (previous role) -->
-        <div class="timeline-item" data-company="pst-data" id="item-pst-data">
-          <img src="images/PST_AG.png" alt="PST Logo" class="logo">
-          <div class="timeline-meta">
-            <h4>PST.AG — Data Entry Specialist (Company Register/Sanctioned Party List/Customs Tariff)</h4>
-            <span><strong>June 2022 – July 2023</strong> · Weimar, Germany (Remote)</span>
-            <div class="timeline-content">
-              <p>Performed meticulous data entry and validation for tariff updates, gaining deep domain knowledge of customs rules and executive notifications.</p>
-              <ul class="timeline-bullets">
-                <li>Processed and validated incoming tariff change requests for multiple jurisdictions.</li>
-                <li>Collaborated with senior managers to understand regulatory context and mapping rules.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- OpenCV -->
+        <!-- OpenCV University -->
         <div class="timeline-item" data-company="opencv">
           <img src="images/Opencv_Logo.png" alt="OpenCV Logo" class="logo">
           <div class="timeline-meta">
-            <h4>OpenCV University — Assistant Manager</h4>
-            <span><strong>Oct 2020 – Mar 2022</strong> · San Diego (Remote)</span>
+            <h4><span class="timeline-company">OpenCV University (DeepVidya AI)</span> <span class="timeline-sep">•</span> <span class="timeline-role">Assistant Manager</span></h4>
+            <span><strong>Oct 2020 – May 2022</strong> · Bangalore, India (Remote)</span>
             <div class="timeline-content">
-              <p>Operations and content quality for a global e-learning platform focused on computer vision.</p>
-              <ul class="timeline-bullets"><li>Managed course operations, uploads and quality checks</li><li>Coordinated instructors & student support</li></ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- Upwork -->
-        <div class="timeline-item" data-company="upwork">
-          <img src="images/Upwork-Logo-Vector.jpg" alt="Upwork Logo" class="logo">
-          <div class="timeline-meta">
-            <h4>Upwork — Freelancer</h4>
-            <span><strong>Oct 2020 – Present</strong> · Remote</span>
-            <div class="timeline-content">
-              <p>Freelance delivery: Python automation, ETL pipelines, AI integrations and marketing support for global clients.
-              </p>
+              <p>As an Assistant Manager, I managed HR operations, course development, academic support, content management, and
+              marketing initiatives for OpenCV University, ensuring smooth delivery of CV/ML courses, student engagement, and quality
+              content.</p>
               <ul class="timeline-bullets">
-                <li>XML/SAP transformation scripts & ETL for compliance data</li>
-                <li>AI automations (ChatGPT/Gemini/Claude), Zapier workflows</li>
-                <li>SEO and lead-gen campaigns</li>
+                <li>Managed the HR Department, including sourcing and hiring candidates via LinkedIn, Indeed, UpWork, Naukri.com for roles
+                such as Computer Vision Engineer, Deep Learning Engineer, Creative Director, Website Developer, Enrollment Specialist,
+                and Interns.</li>
+                <li>Recruited interns from top Indian colleges (IIT, IIIT, NIT, BITS, IISc) via Internshala for CV/ML course development
+                projects.</li>
+                <li>Oversaw onboarding, payroll, offer letters, and assisted during employee exit processes.</li>
+                <li>Developed and managed courses on the Learning Management System (LMS), including content upload, structuring modules,
+                and handling course workflows.</li>
+                <li>Provided student support, addressing course inquiries, complaints, and guidance.</li>
+                <li>Proofread and optimized technical blogs for SEO, publishing them on LearnOpenCV.com via WordPress Elementor.</li>
+                <li>Managed marketing campaigns on Kickstarter and IndieGoGo, including planning, execution, and analytics.</li>
+                <li>Handled customer support tickets through Helpdesk systems for course inquiries and complaints.</li>
+                <li>Conducted community surveys and assisted in organizing annual Computer Vision competitions sponsored by Microsoft and
+                Intel.</li>
+                <li>Assisted in website design and development, improving user experience and functionality.</li>
+              </ul>
+              <strong>Tools Used:</strong>
+              <ul class="timeline-bullets">
+                <li><strong>Project Management:</strong> Basecamp, Asana</li>
+                <li><strong>Recruitment & Sourcing:</strong> LinkedIn, Indeed, UpWork, Naukri.com, Internshala</li>
+                <li><strong>Course & LMS Management:</strong> Learning Management System (LMS) for course creation and administration</li>
+                <li><strong>Content Management & Blogging:</strong> WordPress Elementor, SEM Rush for SEO</li>
+                <li><strong>Customer Support:</strong> Helpdesk</li>
+                <li><strong>Crowdfunding Campaigns:</strong> Kickstarter, IndieGoGo</li>
+                <li><strong>Website Development & Design:</strong> HTML/CSS, JavaScript, WordPress Elementor</li>
               </ul>
             </div>
           </div>
@@ -507,11 +497,56 @@
         <div class="timeline-item" data-company="inventive">
           <img src="images/Inventive_Logo.png" alt="Inventive Logo" class="logo">
           <div class="timeline-meta">
-            <h4>Inventive — Senior Quality Analyst</h4>
-            <span><strong>Feb 2018 – Sep 2020</strong> · Pune, India</span>
+            <h4><span class="timeline-company">Inventive SMi</span> <span class="timeline-sep">•</span> <span class="timeline-role">Sr. Quality Analyst</span></h4>
+            <span><strong>Feb 2019 – Oct 2020</strong> · Pune, India</span>
             <div class="timeline-content">
-              <p>Quality assurance and process improvements across customer workflows.</p>
-              <ul class="timeline-bullets"><li>QA audits, root-cause analysis and training</li><li>Process changes to reduce rework & improve KPIs</li></ul>
+              <p>As a Sr. Quality Analyst in the B2B IT lead generation and business development sector, I ensured high-quality
+              interactions, accurate lead handling, and process optimization for Business Development Executives across top-tier
+              clients.</p>
+              <ul class="timeline-bullets">
+                <li>Monitored 50–70 BDE calls daily, providing actionable feedback to improve lead quality and conversion rates.</li>
+                <li>Evaluated BANT, MQL, SQL, and HQL leads, ensuring precise qualification and compliance with client standards.</li>
+                <li>Executed ABM campaigns, performing TAL and suppression list checks to maintain targeting accuracy.</li>
+                <li>Contributed to process upgrades, evaluation programs, and QA initiatives, driving improved service quality.</li>
+              </ul>
+              <p><strong>Clients:</strong> Microsoft, Spectrum, Akamai, Magento, Perceptyx, PeopleDoc, ZoomInfo, Collibra, Zendesk, Oracle<br>
+              <strong>Tools:</strong> CRM & Lead Management Systems, iLead (internal auditing), Microsoft Excel, Outlook</p>
+            </div>
+          </div>
+        </div>
+        <!-- Facile Infoserv -->
+        <div class="timeline-item" data-company="facile">
+          <img src="images/Facile-svg-logo.svg" alt="Facile Infoserv" class="logo">
+          <div class="timeline-meta">
+            <h4><span class="timeline-company">Facile Info-Serv Pvt. Ltd.</span> <span class="timeline-sep">•</span> <span class="timeline-role">Quality Specialist</span></h4>
+            <span><strong>Aug 2018 – Feb 2019</strong> · Pune, India</span>
+            <div class="timeline-content">
+              <p>As a Quality Specialist in the B2B IT Lead Generation sector, I ensured high-quality interactions, accurate lead
+              handling, and process optimization for Demand Generation teams working on leads for major clients.</p>
+              <ul class="timeline-bullets">
+                <li>Monitored calls and interactions of Demand Generation Specialists, providing actionable feedback to improve
+                performance and lead quality.</li>
+                <li>Evaluated and tracked BANT, MQL, SQL, and HQL leads to ensure proper qualification according to client criteria.</li>
+                <li>Conducted ABM (Account-Based Marketing) activities, ensuring targeted outreach to priority accounts.</li>
+                <li>Performed TAL (Target Account List) checks and suppression list checks to maintain campaign accuracy and compliance.</li>
+                <li>Generated daily, weekly, and monthly quality reports to track performance trends and share insights with management,
+                team leaders, and agents.</li>
+                <li>Coordinated and facilitated call calibration sessions to maintain consistency in quality evaluations.</li>
+                <li>Provided training and coaching to new joiners to ensure consistent adherence to client standards.</li>
+                <li>Maintained ability to perform multiple tasks and adapt quickly in a fast-paced environment with minimal supervision.</li>
+              </ul>
+              <strong>Clients & Lead Campaigns Handled:</strong>
+              <ul class="timeline-bullets">
+                <li><strong>Clients:</strong> Microsoft, IBM, Marketo, Salesforce, Adobe, Oracle</li>
+                <li><strong>Lead Types:</strong> BANT (Budget, Authority, Need, Timeline), MQL (Marketing Qualified Leads), SQL (Sales Qualified Leads), HQL
+                (High-Quality Leads)</li>
+              </ul>
+              <strong>Tools Used:</strong>
+              <ul class="timeline-bullets">
+                <li><strong>CRM & Lead Management Systems</strong> (for reviewing interactions and tracking leads)</li>
+                <li><strong>Quality Monitoring & Data Management Tools</strong></li>
+                <li><strong>Microsoft Excel & Thunderbird</strong> (for reporting and communication)</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -520,19 +555,29 @@
         <div class="timeline-item" data-company="convergys">
           <img src="images/Convergys_Logo.png" alt="Convergys Logo" class="logo">
           <div class="timeline-meta">
-            <h4>Convergys Intelligent Contact — Quality Analyst</h4>
-            <span><strong>Oct 2016 – Jan 2018</strong> · Gurugram, India</span>
-            <div class="timeline-content"><p>Monitored agent performance, provided coaching and closed performance gaps.</p></div>
-          </div>
-        </div>
-
-        <!-- CIS -->
-        <div class="timeline-item" data-company="cis">
-          <img src="images/CIS_Logo.jpg" alt="CIS Logo" class="logo">
-          <div class="timeline-meta">
-            <h4>Cyber Infrastructure (CIS) — Business Support Executive</h4>
-            <span><strong>Nov 2014 – Aug 2016</strong> · Indore, India</span>
-            <div class="timeline-content"><p>Client coordination, vendor follow-ups and project tracking to support delivery.</p></div>
+            <h4><span class="timeline-company">Convergys Corporation</span> <span class="timeline-sep">•</span> <span class="timeline-role">Quality Evaluator (AT&T SOAR)</span></h4>
+            <span><strong>Sep 2016 – Jul 2018</strong> · Gurgaon, India</span>
+            <div class="timeline-content">
+              <p>As a Quality Evaluator at AT&T (SOAR), I was responsible for monitoring, assessing, and improving the quality of customer
+              interactions across multiple channels to ensure compliance with service standards and internal policies.</p>
+              <ul class="timeline-bullets">
+                <li>Evaluated calls, emails, and chat interactions to ensure adherence to AT&T quality guidelines, SOPs, and regulatory
+                requirements.</li>
+                <li>Provided detailed feedback and coaching recommendations to improve agent performance and customer satisfaction.</li>
+                <li>Identified trends in customer interactions and contributed to process improvement initiatives to enhance overall
+                service quality.</li>
+                <li>Maintained accurate evaluation records and generated reports for management review.</li>
+                <li>Collaborated with team leads, trainers, and quality teams to ensure consistent evaluation standards.</li>
+                <li>Assisted in escalation tracking and documentation to identify recurring issues or compliance gaps.</li>
+                </ul>
+              <strong>Tools Used:</strong>
+              <ul class="timeline-bullets">
+                <li>SOAR Platform (for quality evaluation workflows)</li>
+                <li>AT&T CRM systems (for customer interaction tracking)</li>
+                <li>Microsoft Excel & Outlook (for reporting and documentation)</li>
+                </ul>
+              </p>
+            </div>
           </div>
         </div>
 
@@ -540,9 +585,28 @@
         <div class="timeline-item" data-company="lancesoft">
           <img src="images/LanceSoft_Logo.png" alt="Lancesoft Logo" class="logo">
           <div class="timeline-meta">
-            <h4>LanceSoft, Inc. — Information Technology Recruiter</h4>
-            <span><strong>Oct 2013 – Nov 2014</strong> · Indore, India</span>
-            <div class="timeline-content"><p>Full-cycle recruitment: sourcing, interviewing and candidate management.</p></div>
+            <h4><span class="timeline-company">LanceSoft Inc.</span> <span class="timeline-sep">•</span> <span class="timeline-role">US IT Recruiter</span></h4>
+            <span><strong>Nov 2015 – Aug 2016</strong> · Indore, India</span>
+            <div class="timeline-content">
+              <p>As a full-cycle recruiter for US-based clients, I managed the end-to-end recruitment process for both IT and non-IT
+              positions across multiple Fortune 500 companies. My role encompassed sourcing, screening, coordination, and onboarding
+              while ensuring compliance with client standards and timely delivery.</p>
+              <ul class="timeline-bullets">
+                <li>Sourced candidates via LinkedIn Navigator, CareerBuilder, Monster, Techfetch, Dice, Indeed, and internal ATS systems.</li>
+                <li>Managed IT roles including Java Developer, Solutions Architect, Cybersecurity Specialist, Network Administrator, IT
+                Project Manager, Database Administrator (DBA), Product Manager (Technical), and IT Operations Manager.</li>
+                <li>Managed non-IT roles including Controller, Finance Manager, Paralegal, Accounting Manager, Risk Manager, Auditor, and
+                related positions.</li>
+                <li>Worked with Fortune 500 clients such as Verizon, Caterpillar, GMAC, Ocwen, UPS, among others.</li>
+                <li>Recruited for W2 and C2C positions, ensuring alignment with client requirements and employment type preferences.</li>
+                <li>Utilized VMS platforms like Beeline, SAP Fieldglass, and IQNavigator to upload candidates and track submission
+                progress.</li>
+                <li>Formatted resumes according to client-specific standards and coordinated with candidates via email to confirm rates,
+                responsibilities, and other key details.</li>
+                <li>Ensured high-quality candidate experience and timely follow-up throughout the recruitment lifecycle.</li>
+                <li>Collaborated with hiring managers and internal teams to improve talent pipeline efficiency and sourcing strategies.</li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -550,9 +614,24 @@
         <div class="timeline-item" data-company="teleperformance">
           <img src="images/Teleperformance-Logo.jpg" alt="Teleperformance Logo" class="logo">
           <div class="timeline-meta">
-            <h4>Teleperformance — Technical Support Specialist</h4>
-            <span><strong>Sep 2012 – Sep 2013</strong> · Indore, India</span>
-            <div class="timeline-content"><p>Resolved technical tickets, provided guidance and documented resolutions for internal knowledge base.</p></div>
+            <h4><span class="timeline-company">Teleperformance SE</span> <span class="timeline-sep">•</span> <span class="timeline-role">Technical Support Specialist (Ingram Micro)</span></h4>
+            <span><strong>Oct 2013 – Nov 2014</strong> · Indore, India</span>
+            <div class="timeline-content">
+              <p>As part of the Ingram Micro support process at Teleperformance, I delivered end-to-end technical assistance to business
+              clients across Microsoft, Akamai, and Dropbox products. My role involved handling customer interactions through Calls,
+              Emails, and Chat, ensuring timely resolution of licensing, activation, and subscription-related issues.</p>
+              <ul class="timeline-bullets">
+                <li>Managed a daily workload of 15–20 calls and 30–40 emails, consistently meeting SLAs and maintaining high-quality
+                customer experience.</li>
+                <li>Supported clients with product activation, subscription management, and licensing issues via the Microsoft Admin Panel
+                and other enterprise tools.</li>
+                <li>Ensured seamless communication by accurately documenting cases in Microsoft Dynamics and escalating complex issues
+                when required.</li>
+                <li>Maintained strong customer satisfaction (CSAT) scores through clear communication, empathetic support, and quick
+                problem resolution.</li>
+                <li>Tools: Microsoft Admin Panel, Microsoft Dynamics, X-lite, Sparx, Excel, Outlook, TPRMS.</li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -577,10 +656,6 @@
         <li data-country="india" data-flag="in" data-name="India" role="listitem" tabindex="0" aria-label="India - Click for details about cities, places, and food" title="Click for India details">
           <span class="flag-emoji fi fi-in" aria-hidden="true"></span>
           <span class="country-name">India</span>
-        </li>
-        <li data-country="uk" data-flag="gb" data-name="United Kingdom" role="listitem" tabindex="0" aria-label="United Kingdom - Click for details about cities, places, and food" title="Click for UK details">
-          <span class="flag-emoji fi fi-gb" aria-hidden="true"></span>
-          <span class="country-name">United Kingdom</span>
         </li>
         <li data-country="kenya" data-flag="ke" data-name="Kenya" role="listitem" tabindex="0" aria-label="Kenya - Click for details about cities, places, and food" title="Click for Kenya details">
           <span class="flag-emoji fi fi-ke" aria-hidden="true"></span>
@@ -620,16 +695,6 @@
           <span class="country-name">Swahili</span>
           <div class="language-subtitle">Learned in East Africa</div>
         </li>
-        <li role="listitem" aria-label="Spanish - Conversational basics">
-          <span class="flag-emoji fi fi-es" aria-hidden="true"></span>
-          <span class="country-name">Spanish</span>
-          <div class="language-subtitle">Conversational basics</div>
-        </li>
-        <li role="listitem" aria-label="Arabic - Everyday understanding">
-          <span class="flag-emoji fi fi-sa" aria-hidden="true"></span>
-          <span class="country-name">Arabic</span>
-          <div class="language-subtitle">Everyday understanding</div>
-        </li>
         <li role="listitem" aria-label="Gujarati - Family language">
           <span class="flag-emoji fi fi-in" aria-hidden="true"></span>
           <span class="country-name">Gujarati</span>
@@ -640,13 +705,6 @@
           <span class="country-name">Marathi</span>
           <div class="language-subtitle">Regional fluency</div>
         </li>
-        <li role="listitem" aria-label="Urdu - Close to Hindi, good understanding">
-          <span class="flag-emoji fi fi-pk" aria-hidden="true"></span>
-          <span class="country-name">Urdu</span>
-          <div class="language-subtitle">Close to Hindi — good understanding</div>
-        </li>
-      </ul>
-    </section>
 
     <!-- Hobbies -->
     <section id="section-hobbies">

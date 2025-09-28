@@ -1,19 +1,10 @@
 /* -------- Spoken 20-30s intro (approx 25s at natural pace) -------- */
-const introText = `Hi, I’m Abbas Molvy. I’m an Interim Regulations Manager at PST dot AG, with three and a half years of experience turning legal updates into accurate tariff data. I enjoy the intersection of international trade and automation — building ETL pipelines and Python tools that feed enterprise systems. I also study finance, human psychology and enjoy exploring food and places around the world.`;
+const introText = `Hi, I’m Abbas Molvy. I’m an Interim Regulations Manager at PST dot AG, where I turn legal updates into accurate tariff data. I enjoy the intersection of international trade and automation — building ETL pipelines and Python tools that feed enterprise systems. I also study finance, human psychology and enjoy exploring food and places around the world.`;
 
 /* ------- Tour segments: each speaks and highlights a section ------- */
 const tourSteps = [
-  { id: 'section-bio', title: 'Three Key Questions', text:
-      'Let me answer the three questions that matter most for our conversation today.'
-  },
-  { id: 'question-1', title: 'PST.AG Role & Experience', text:
-      'I have been with PST dot AG for three and a half years as Interim Regulations Manager. I love being the bridge between legal complexity and technological innovation, transforming regulatory documents into machine-readable data. My work involves ETL pipeline development, SAP integration, and process optimization that has reduced processing time from 48 hours to 4 hours per update cycle.'
-  },
   { id: 'question-2', title: 'My Global Journey & Travel Experiences', text:
       'I am originally from India but have lived across eight countries and thirty seven cities spanning three continents. Each place has shaped my worldview - from Tanzania teaching me about resilience and community, to the UAE showing me modern trade dynamics, to the UK developing my professional skills. My top travel recommendation is to start with local markets and food streets where you truly understand a culture.'
-  },
-  { id: 'question-3', title: 'My Hobbies & Interests', text:
-      'I enjoy studying finance, human psychology, international trade, travel and food, philosophy, and music. These diverse interests help me understand both the technical and human aspects of business, while music connects me to different cultures and provides a universal language of emotion and expression.'
   },
   { id: 'section-countries', title: 'Countries I have Experienced', text:
       'Click on any country flag to see detailed information about cities visited, famous places, and food recommendations from my travels.'
@@ -334,12 +325,19 @@ function createPageSections() {
       </div>
       <div id="section-timeline"></div>
     </div>
-    <div class="page" id="page-travel">
+    <div class="page" id="page-skills">
       <div class="page-header">
-        <h1>🌍 Travel & Countries</h1>
-        <p>Countries I've experienced and places I've visited</p>
+        <h1>⚡ Skills & Expertise</h1>
+        <p>My technical and professional capabilities</p>
       </div>
-      <div id="section-countries"></div>
+      <div id="section-skills"></div>
+    </div>
+    <div class="page" id="page-education">
+      <div class="page-header">
+        <h1>🎓 Education</h1>
+        <p>Degrees, certifications and academic highlights</p>
+      </div>
+      <div id="section-education"></div>
     </div>
     <div class="page" id="page-languages">
       <div class="page-header">
@@ -348,19 +346,19 @@ function createPageSections() {
       </div>
       <div id="section-langs"></div>
     </div>
+    <div class="page" id="page-travel">
+      <div class="page-header">
+        <h1>🌍 Travel & Countries</h1>
+        <p>Countries I've experienced and places I've visited</p>
+      </div>
+      <div id="section-countries"></div>
+    </div>
     <div class="page" id="page-hobbies">
       <div class="page-header">
         <h1>🎯 Hobbies & Interests</h1>
         <p>What I enjoy doing in my free time</p>
       </div>
       <div id="section-hobbies"></div>
-    </div>
-    <div class="page" id="page-skills">
-      <div class="page-header">
-        <h1>⚡ Skills & Expertise</h1>
-        <p>My technical and professional capabilities</p>
-      </div>
-      <div id="section-skills"></div>
     </div>
   `;
   
@@ -379,6 +377,18 @@ function moveSectionsToPages() {
     document.querySelector('#page-experience #section-timeline').appendChild(timelineSection);
   }
   
+  // Move Question 2 (Country details) content into Countries section without banner
+  const q2 = document.querySelector('#question-2 .answer-content');
+  if (q2) {
+    const countriesLabel = document.querySelector('#page-travel #section-countries');
+    if (countriesLabel) {
+      const wrap = document.createElement('div');
+      wrap.className = 'travel-intro-wrap';
+      wrap.appendChild(q2);
+      countriesLabel.prepend(wrap);
+    }
+  }
+
   // Move countries to travel page
   const countriesSection = document.querySelector('#section-countries');
   if (countriesSection) {
@@ -401,6 +411,12 @@ function moveSectionsToPages() {
   const skillsSection = document.querySelector('#section-skills');
   if (skillsSection) {
     document.querySelector('#page-skills #section-skills').appendChild(skillsSection);
+  }
+
+  // Move education to education page
+  const educationSection = document.querySelector('#section-education');
+  if (educationSection) {
+    document.querySelector('#page-education #section-education').appendChild(educationSection);
   }
 }
 
@@ -475,12 +491,10 @@ function initializeChatAssistant(){
     saveHistory();
   });
 
-  // Always show welcome on load
-  widget.classList.add('open');
-  widget.setAttribute('aria-hidden','false');
-  if(history.length === 0){
-    appendMsg('Hi! How can I help you today? You can ask about my experience, download resume, or start a guided tour.', 'bot');
-  }
+  // Do not auto-open assistant on load
+  widget.classList.remove('open');
+  widget.setAttribute('aria-hidden','true');
+  // Prepare suggestions (will be visible after open)
   renderSuggestions(['Download resume','Show experience','Start guided tour','Open LinkedIn','Open Upwork','Contact details']);
 
   function renderSuggestions(list){
@@ -873,35 +887,134 @@ function clearSearch() {
 }
 
 function showPage(pageId) {
-  const pages = document.querySelectorAll('.page');
   const targetPage = document.getElementById(`page-${pageId}`);
-  
-  // Hide all pages
-  pages.forEach(page => {
-    page.classList.remove('active');
-    page.style.display = 'none';
-  });
-  
-  // Show target page
-  if (targetPage) {
-    targetPage.classList.add('active');
-    targetPage.style.display = 'block';
-    
-    // Smooth scroll to top
+  if (!targetPage) return;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  targetPage.classList.add('active');
+  if (pageId === 'summary') {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // Show notification
-    const pageNames = {
-      'summary': 'Summary',
-      'experience': 'Work Experience',
-      'travel': 'Travel & Countries',
-      'languages': 'Languages',
-      'hobbies': 'Hobbies & Interests',
-      'skills': 'Skills & Expertise'
-    };
-    
-    showNotification(`Switched to ${pageNames[pageId]} page`, 'info', 2000);
+  } else {
+    const yOffset = 70;
+    const y = targetPage.getBoundingClientRect().top + window.scrollY - yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
   }
+}
+
+/* Scroll spy to highlight nav as user scrolls */
+function initializeScrollSpy() {
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const navItems = document.querySelectorAll('.nav-item');
+  const yOffset = 80; // adjust for any banners/headers
+
+  function onScroll() {
+    const scrollPos = window.scrollY + yOffset;
+    let currentId = 'summary';
+    pages.forEach(page => {
+      const rect = page.getBoundingClientRect();
+      const top = rect.top + window.scrollY;
+      if (scrollPos >= top) {
+        currentId = page.id.replace('page-', '');
+      }
+    });
+    navItems.forEach(n => n.classList.remove('active'));
+    const navItem = document.querySelector(`.nav-item[data-page="${currentId}"]`);
+    if (navItem) navItem.classList.add('active');
+  }
+
+  window.addEventListener('scroll', throttle(onScroll, 50));
+  onScroll();
+}
+
+/* Render simple donut charts for experience timeline */
+function renderExperienceCharts() {
+  const colorPalette = ['#145bff', '#0b6f5b', '#f59e0b', '#ef4444', '#6366f1'];
+  const presets = {
+    'pst-manager': [
+      { label: 'ETL', value: 40 },
+      { label: 'SAP', value: 30 },
+      { label: 'QA', value: 15 },
+      { label: 'Compliance', value: 15 }
+    ],
+    'opencv': [
+      { label: 'HR/Recruitment', value: 35 },
+      { label: 'LMS/Content', value: 35 },
+      { label: 'Support', value: 15 },
+      { label: 'Marketing', value: 15 }
+    ],
+    'inventive': [
+      { label: 'QA', value: 50 },
+      { label: 'B2B/Leads', value: 35 },
+      { label: 'Reporting', value: 15 }
+    ],
+    'facile': [
+      { label: 'QA', value: 45 },
+      { label: 'ABM', value: 30 },
+      { label: 'Coaching', value: 25 }
+    ],
+    'convergys': [
+      { label: 'Evaluation', value: 50 },
+      { label: 'Reporting', value: 25 },
+      { label: 'Process', value: 25 }
+    ],
+    'lancesoft': [
+      { label: 'Sourcing', value: 45 },
+      { label: 'Screening', value: 35 },
+      { label: 'Coordination', value: 20 }
+    ],
+    'teleperformance': [
+      { label: 'Support', value: 60 },
+      { label: 'Licensing', value: 25 },
+      { label: 'Documentation', value: 15 }
+    ]
+  };
+
+  document.querySelectorAll('.timeline-item').forEach(item => {
+    const key = (item.getAttribute('data-company') || '').replace('item-', '') || item.dataset.company || '';
+    const data = presets[key] || presets['pst-manager'];
+    const total = data.reduce((s, d) => s + d.value, 0);
+    let current = 0;
+    const slices = data.map((d, i) => {
+      const start = (current / total) * 360;
+      current += d.value;
+      const end = (current / total) * 360;
+      const color = colorPalette[i % colorPalette.length];
+      return `${color} ${start}deg ${end}deg`;
+    }).join(', ');
+
+    const chart = document.createElement('div');
+    chart.className = 'donut-chart';
+    chart.setAttribute('aria-label', 'Skill distribution');
+    chart.style.background = `conic-gradient(${slices})`;
+    const inner = document.createElement('div');
+    inner.className = 'donut-inner';
+    inner.textContent = '';
+    chart.appendChild(inner);
+
+    const legend = document.createElement('div');
+    legend.className = 'donut-legend';
+    data.forEach((d, i) => {
+      const row = document.createElement('div');
+      row.className = 'legend-row';
+      const sw = document.createElement('span');
+      sw.className = 'legend-swatch';
+      sw.style.background = colorPalette[i % colorPalette.length];
+      const txt = document.createElement('span');
+      txt.textContent = `${d.label} ${d.value}%`;
+      row.appendChild(sw);
+      row.appendChild(txt);
+      legend.appendChild(row);
+    });
+
+    const aside = document.createElement('div');
+    aside.className = 'timeline-aside';
+    aside.appendChild(chart);
+    aside.appendChild(legend);
+
+    const meta = item.querySelector('.timeline-meta');
+    if (meta && !item.querySelector('.timeline-aside')) {
+      item.insertBefore(aside, meta);
+    }
+  });
 }
 
 /* Add CSS for notifications and loading states */
@@ -1079,6 +1192,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeSidebar();
   initializePageNavigation();
   initializeSearch();
+  initializeScrollSpy();
+  // Charts disabled per request
 
   // Initialize Chat Assistant
   initializeChatAssistant();
@@ -1086,6 +1201,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Welcome sparkles + popup
   launchWelcomeEffects();
+
+  // Ensure page starts at Summary on load
+  showPage('summary');
 
 /* Play intro button */
 document.getElementById('playIntro').addEventListener('click', ()=>{
@@ -1192,15 +1310,23 @@ document.getElementById('startTour').addEventListener('click', ()=>{
 
   /* Timeline expand/collapse (only one open) */
 document.querySelectorAll('.timeline-item').forEach(item=>{
+  // Expand all by default
+  const content = item.querySelector('.timeline-content');
+  if (content && !content.classList.contains('open')) {
+    content.classList.add('open');
+    content.style.maxHeight = content.scrollHeight + "px";
+  }
+  // Click toggles individual item without closing others
   item.addEventListener('click', (e)=>{
     if(e.target.tagName.toLowerCase() === 'a') return;
-    const content = item.querySelector('.timeline-content');
-    const isOpen = content.classList.contains('open');
-    closeAllTimeline();
-    if(!isOpen){
-      content.classList.add('open');
-      content.style.maxHeight = content.scrollHeight + "px";
-      setTimeout(()=> item.scrollIntoView({behavior:'smooth', block:'center'}), 120);
+    const c = item.querySelector('.timeline-content');
+    const willOpen = !c.classList.contains('open');
+    if (willOpen) {
+      c.classList.add('open');
+      c.style.maxHeight = c.scrollHeight + "px";
+    } else {
+      c.classList.remove('open');
+      c.style.maxHeight = null;
     }
   });
 });
@@ -1276,14 +1402,7 @@ document.getElementById('downloadResume').addEventListener('click', ()=>{
     });
   });
 
-  /* Auto-open current PST manager role on load */
-  const pst = document.getElementById('item-pst-manager');
-  if(pst){
-    const content = pst.querySelector('.timeline-content');
-    content.classList.add('open');
-    content.style.maxHeight = content.scrollHeight + "px";
-    setTimeout(()=> pst.scrollIntoView({behavior:'smooth', block:'center'}), 250);
-  }
+  // Already expanded all timeline items above
 });
 
 function runTourSteps(index, onComplete){
