@@ -608,11 +608,12 @@ function initializePdfExporter(){
     const include = {
       header: document.getElementById('pdfIncludeHeader').checked,
       summary: document.getElementById('pdfIncludeSummary').checked,
-      skills: document.getElementById('pdfIncludeSkills').checked,
       experience: document.getElementById('pdfIncludeExperience').checked,
-      countries: document.getElementById('pdfIncludeCountries').checked,
+      skills: document.getElementById('pdfIncludeSkills').checked,
+      education: document.getElementById('pdfIncludeEducation').checked,
       languages: document.getElementById('pdfIncludeLanguages').checked,
       hobbies: document.getElementById('pdfIncludeHobbies').checked,
+      countries: document.getElementById('pdfIncludeCountries').checked,
     };
     const layout = document.getElementById('pdfLayout').value;
     const theme = document.getElementById('pdfTheme').value;
@@ -621,7 +622,7 @@ function initializePdfExporter(){
 
     // Build export document from selected sections only (ignores hidden page wrappers)
     const wrapper = document.createElement('div');
-    wrapper.style.padding = '16px';
+    wrapper.style.padding = '8px';
     wrapper.className = 'pdf-root';
     if(layout === 'two-col') wrapper.classList.add('pdf-two-col');
     if(theme === 'clean') wrapper.classList.add('pdf-clean');
@@ -629,7 +630,7 @@ function initializePdfExporter(){
     const sanitize = (node) => {
       if(!node) return null;
       // Remove interactive-only elements within the clone
-      node.querySelectorAll('.chat-toggle,.chat-widget,.tools,.tools-vertical,.sidebar,.sidebar-overlay,.mobile-menu-btn,.sidebar-toggle,.header-graphic,.dialog-overlay').forEach(el=> el.remove());
+      node.querySelectorAll('.chat-toggle,.chat-widget,.tools,.tools-vertical,.sidebar,.sidebar-overlay,.mobile-menu-btn,.sidebar-toggle,.header-graphic,.dialog-overlay,.download-resume-btn').forEach(el=> el.remove());
       // Neutralize sticky/fixed positions inside the clone
       node.querySelectorAll('*').forEach(el=>{
         const cs = window.getComputedStyle(el);
@@ -645,32 +646,42 @@ function initializePdfExporter(){
       sanitize(block);
       // Ensure visibility regardless of site page routing
       block.style.display = 'block';
-      // Optional section heading for clarity if needed (skip for header)
-      if(title){
-        const sectionWrap = document.createElement('section');
-        sectionWrap.className = 'section';
+      const sectionWrap = document.createElement('section');
+      sectionWrap.className = 'section';
+      // Try to include the corresponding page header from the same page, compact for PDF
+      let headerNode = null;
+      const page = src.closest('.page');
+      if(page){
+        const ph = page.querySelector('.page-header');
+        if(ph){
+          headerNode = ph.cloneNode(true);
+          sanitize(headerNode);
+          headerNode.classList.add('pdf-page-header');
+        }
+      }
+      if(headerNode){
+        sectionWrap.appendChild(headerNode);
+      } else if(title){
         const h = document.createElement('h2');
         h.textContent = title;
-        h.style.margin = '10px 0';
+        h.style.margin = '0 0 2px 0';
         h.style.color = '#145bff';
         h.style.fontSize = '18px';
         sectionWrap.appendChild(h);
-        sectionWrap.appendChild(block);
-        wrapper.appendChild(sectionWrap);
-      } else {
-        wrapper.appendChild(block);
       }
+      sectionWrap.appendChild(block);
+      wrapper.appendChild(sectionWrap);
     };
 
     if(include.header) add('header', null);
     if(include.summary) add('#summary-overview', '🧑\u200d💼 Summary');
+    if(include.experience) add('#section-timeline', '💼 Work Experience');
     if(include.skills) {
       add('#section-skills', '🛠️ Skills');
       // Standardize grids for PDF
       wrapper.querySelectorAll('#section-skills .skills-grid').forEach(g=> g.classList.add('section-grid'));
     }
-    if(include.experience) add('#section-timeline', '💼 Work Experience');
-    if(include.countries) add('#section-countries', '🌍 Countries');
+    if(include.education) add('#section-education', '🎓 Education');
     if(include.languages) add('#section-langs', '🗣️ Languages');
     if(include.hobbies) {
       // Prefer the dedicated page content for Hobbies
@@ -681,32 +692,72 @@ function initializePdfExporter(){
       }
       wrapper.querySelectorAll('#section-hobbies .hobbies-grid').forEach(g=> g.classList.add('section-grid'));
     }
+    if(include.countries) add('#section-countries', '🌍 Countries');
 
     // Inject PDF-specific styles for clean spacing, emojis, and typography
     const pdfStyle = document.createElement('style');
     pdfStyle.textContent = `
       .pdf-root{ width: 794px; max-width: 794px; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; color:#111; background:#fff }
       .pdf-root *, .pdf-root *::before, .pdf-root *::after{ box-sizing: border-box }
-      .pdf-root h1{ margin: 0 0 6px 0; font-size: 26px; }
-      .pdf-root h2{ margin: 10px 0 8px; font-size: 18px; color:#145bff }
+      .pdf-root h1{ margin: 0 0 4px 0; font-size: 26px; }
+      .pdf-root h2{ margin: 0 0 2px; font-size: 18px; color:#145bff }
+      /* Tighten site header spacing in PDF */
+      .pdf-root header{ margin: 0 0 4px 0 !important; padding: 0 !important; border: 0 !important }
       .pdf-root h3{ margin: 6px 0 6px; font-size: 15px; }
-      .pdf-root p{ margin: 4px 0; line-height: 1.45; }
-      .pdf-root ul{ margin: 4px 0 8px 18px; }
-      .pdf-root .section{ margin: 8px 0 12px; }
+      .pdf-root p{ margin: 2px 0; line-height: 1.45; }
+      .pdf-root ul{ margin: 2px 0 6px 18px; }
+      .pdf-root .section{ margin: 0 0 6px; }
       .pdf-root .section > *:first-child{ margin-top: 0 }
       .pdf-root .section > *:last-child{ margin-bottom: 0 }
+      /* Remove duplicate in-section labels and compress top spacing under headings */
+      .pdf-root .section .label{ display:none !important }
+      .pdf-root #summary-overview{ margin: 0 !important; padding-top: 0 !important }
+      .pdf-root #section-timeline{ margin-top: 0 !important }
+      .pdf-root .timeline{ margin: 0 0 6px 0 !important }
+      .pdf-root .skills-grid{ margin-top: 0 !important }
+      .pdf-root .hobbies-grid{ margin-top: 0 !important }
+      .pdf-root #section-langs ul.flags{ margin: 2px 0 6px 0 !important }
+      .pdf-root #section-countries ul.flags{ margin: 2px 0 6px 0 !important }
+      /* Compact page headers included above each section */
+      .pdf-root .pdf-page-header{ display:block !important; margin: 0 0 6px 0 !important; padding: 6px 8px !important; border-radius: 8px !important; border:1px solid rgba(20,91,255,0.12) !important; background: linear-gradient(135deg, rgba(20,91,255,0.04), rgba(11,111,91,0.04)) !important }
+      .pdf-root .pdf-page-header h1{ font-size: 18px !important; margin: 0 0 2px 0 !important }
+      .pdf-root .pdf-page-header p{ font-size: 12px !important; margin: 0 !important }
+      /* Hide right header column and quotes in PDF to reduce space */
+      .pdf-root .header-right{ display: none !important }
+      .pdf-root .contact-quote-line{ display: none !important }
+      .pdf-root .download-resume-btn{ display:none !important }
       .pdf-root .page, .pdf-root .page-container, .pdf-root .wrap, .pdf-root .content-wrapper{ padding:0 !important; margin:0 !important; max-width:100% !important }
-      .pdf-root .section-grid{ display:grid; grid-template-columns: 1fr; gap: 12px; }
+      .pdf-root .section-grid{ display:grid; grid-template-columns: 1fr; gap: 10px; }
       .pdf-two-col .section-grid{ grid-template-columns: 1fr 1fr; }
       .pdf-root .avoid-break{ break-inside: avoid; page-break-inside: avoid; }
+      /* Allow timeline items to break across pages without clipping */
+      .pdf-root .timeline{ break-inside: auto; page-break-inside: auto; }
+      .pdf-root .timeline-item{ break-inside: auto; page-break-inside: auto; display:block !important; }
+      .pdf-root .timeline-item .logo{ float:left; margin-right:10px; }
+      .pdf-root .timeline-bullets li{ break-inside:auto; page-break-inside:auto; }
+      .pdf-root .timeline-content{ max-height: none !important; overflow: visible !important; }
+      /* Shrink oversized timeline fonts for PDF to avoid overflow */
+      .pdf-root .timeline-item h4{ font-size: 15px !important; line-height: 1.3 !important }
+      .pdf-root .timeline-company{ font-size: 15px !important; letter-spacing: 0 !important; text-transform: none !important }
+      .pdf-root .timeline-role{ font-size: 12px !important; padding: 4px 8px !important }
+      .pdf-root .timeline-item span{ font-size: 12px !important }
+      .pdf-root .logo{ width: 24px !important; height: 24px !important }
+      /* Normalize image/icon sizing in PDF */
+      .pdf-root img{ max-width: 100% !important; height: auto !important }
+      .pdf-root svg{ height: auto !important; max-width: 100% !important }
+      .pdf-root .avatar-img{ width: 96px !important; height: 96px !important; border-width: 2px !important }
+      .pdf-root .profile-icon{ width: 14px !important; height: 14px !important }
+      .pdf-root .flag-emoji{ width: 20px !important; height: 14px !important }
+      .pdf-root .hobby-icon{ width: 40px !important; height: 40px !important; font-size: 22px !important }
+      .pdf-root .skill-icon{ width: 28px !important; height: 28px !important; font-size: 18px !important }
       .pdf-clean *{ border-radius: 0 !important; box-shadow: none !important; }
       .pdf-root .contact-landscape .contact-item{ border:1px solid rgba(0,0,0,0.08); background:#fafafa; color:#111 }
       .page-break{ break-before: always; page-break-before: always; }
     `;
     wrapper.prepend(pdfStyle);
 
-    // Mark common cards to avoid page breaks
-    wrapper.querySelectorAll('.timeline-item,.skill-category,.hobby-item,.summary-card').forEach(el=> el.classList.add('avoid-break'));
+    // Mark common cards to avoid page breaks, but allow timeline items to split across pages
+    wrapper.querySelectorAll('.skill-category,.hobby-item,.summary-card').forEach(el=> el.classList.add('avoid-break'));
     
     // If a PDF server endpoint is configured, prefer it for best fidelity
     if(window.PDF_SERVER_ENDPOINT){
@@ -729,17 +780,17 @@ function initializePdfExporter(){
 
     // Render to PDF via html2pdf
     const opt = {
-      margin:       0.5,
+      margin:       0.4,
       filename:     'Abbas_Molvi_Resume.pdf',
       image:        { type: 'jpeg', quality: 0.98 },
       html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
       jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
-      pagebreak:    { mode: ['css', 'legacy'], avoid: ['.avoid-break'] }
+      pagebreak:    { mode: ['css', 'legacy'], avoid: ['.avoid-break'], before: '.page-break' }
     };
 
     try{
-      // Temporarily hide dynamic UI elements in live DOM to avoid capture glitches
-      document.querySelectorAll('.chat-toggle,.chat-widget,.tools,.tools-vertical').forEach(el=> el.classList.add('print-temp-hide'));
+      // Temporarily hide dynamic UI elements in live DOM to avoid capture glitches (dialogs, notifications, overlays)
+      document.querySelectorAll('.chat-toggle,.chat-widget,.tools,.tools-vertical,.dialog,.dialog-overlay,.notification,.notification-loading').forEach(el=> el.classList.add('print-temp-hide'));
       // Disable CSS animations/transitions during rasterization
       const animStyle = document.createElement('style');
       animStyle.id = 'pdf-anim-disable';
@@ -754,26 +805,34 @@ function initializePdfExporter(){
     }catch(err){
       console.error('html2pdf failed, falling back to browser print:', err);
       // Fallback to print dialog to ensure user can still export
-      fallbackPrint();
+      fallbackPrint(wrapper, pdfStyle.textContent);
     }
 
-    function fallbackPrint(){
+    function fallbackPrint(wrapperNode, cssText){
       const button = document.getElementById('downloadResume');
       const originalHTML = button ? button.innerHTML : '';
       if(button){ button.disabled = true; button.innerHTML = '<span>Preparing...</span>'; }
-      // Activate print mode styles on live DOM and print
-      document.documentElement.classList.add('print-mode');
-      document.body.classList.add('print-mode');
-      const cleanup = () => {
-        document.documentElement.classList.remove('print-mode');
-        document.body.classList.remove('print-mode');
-        if(button){ button.disabled = false; button.innerHTML = originalHTML; }
-        document.querySelectorAll('.notification-loading').forEach(n => n.remove());
-        showNotification('Use “Save as PDF” in the print dialog.', 'warning', 3000);
-      };
-      const onAfterPrint = () => { cleanup(); window.removeEventListener('afterprint', onAfterPrint); };
-      window.addEventListener('afterprint', onAfterPrint);
-      setTimeout(()=> window.print(), 200);
+      // Use a hidden iframe to print without opening a new window/tab
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'fixed';
+      iframe.style.right = '0';
+      iframe.style.bottom = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = '0';
+      iframe.style.visibility = 'hidden';
+      document.body.appendChild(iframe);
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      doc.open();
+      doc.write(`<!doctype html><html><head><meta charset="utf-8"><title>Resume</title><style>html,body{margin:0;padding:0} ${cssText}</style></head><body>${wrapperNode.outerHTML}</body></html>`);
+      doc.close();
+      const win = iframe.contentWindow;
+      const cleanup = () => { try{ document.body.removeChild(iframe); }catch(e){} };
+      win.focus();
+      win.onafterprint = cleanup;
+      setTimeout(()=> { win.print(); }, 50);
+      document.querySelectorAll('.notification-loading').forEach(n => n.remove());
+      if(button){ button.disabled = false; button.innerHTML = originalHTML; }
     }
   });
 }
