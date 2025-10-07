@@ -697,15 +697,15 @@ function initializePdfExporter(){
     // Inject PDF-specific styles for clean spacing, emojis, and typography
     const pdfStyle = document.createElement('style');
     pdfStyle.textContent = `
-      .pdf-root{ width: 794px; max-width: 794px; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; color:#111; background:#fff }
-      .pdf-root *, .pdf-root *::before, .pdf-root *::after{ box-sizing: border-box }
+      .pdf-root{ width: 794px; max-width: 794px; margin: 0 auto; font-family: Arial, Helvetica, sans-serif; color:#111; background:#fff; font-size:12.5px; hyphens:auto }
+      .pdf-root *, .pdf-root *::before, .pdf-root *::after{ box-sizing: border-box; hyphens:auto }
       .pdf-root h1{ margin: 0 0 4px 0; font-size: 26px; }
       .pdf-root h2{ margin: 0 0 2px; font-size: 18px; color:#145bff }
       /* Tighten site header spacing in PDF */
       .pdf-root header{ margin: 0 0 4px 0 !important; padding: 0 !important; border: 0 !important }
       .pdf-root h3{ margin: 6px 0 6px; font-size: 15px; }
       .pdf-root p{ margin: 2px 0; line-height: 1.45; }
-      .pdf-root ul{ margin: 2px 0 6px 18px; }
+      .pdf-root ul{ margin: 0 0 6px 16px; }
       .pdf-root .section{ margin: 0 0 6px; }
       .pdf-root .section > *:first-child{ margin-top: 0 }
       .pdf-root .section > *:last-child{ margin-bottom: 0 }
@@ -727,14 +727,25 @@ function initializePdfExporter(){
       .pdf-root .contact-quote-line{ display: none !important }
       .pdf-root .download-resume-btn{ display:none !important }
       .pdf-root .page, .pdf-root .page-container, .pdf-root .wrap, .pdf-root .content-wrapper{ padding:0 !important; margin:0 !important; max-width:100% !important }
-      .pdf-root .section-grid{ display:grid; grid-template-columns: 1fr; gap: 10px; }
-      .pdf-two-col .section-grid{ grid-template-columns: 1fr 1fr; }
+      .pdf-root .section-grid{ display:grid; grid-template-columns: 1fr; gap: 8px; justify-items: stretch; align-items: start }
+      .pdf-two-col .section-grid{ grid-template-columns: 1fr 1fr; gap: 8px }
       .pdf-root .avoid-break{ break-inside: avoid; page-break-inside: avoid; }
+      /* Ensure blocks align and fit page width */
+      .pdf-root *{ word-wrap: break-word; overflow-wrap: anywhere; }
+      .pdf-root .skill-category,
+      .pdf-root .hobby-item,
+      .pdf-root .timeline-item{ width: 100% !important; box-sizing: border-box !important; margin: 0 0 6px 0 !important; box-shadow: none !important; transform: none !important; }
+      .pdf-root .skill-category{ padding: 12px !important; border:1px solid rgba(0,0,0,0.08) !important; background:#fff !important; text-align:left !important }
+      .pdf-root .hobby-item{ padding: 12px !important; border:1px solid rgba(0,0,0,0.08) !important; background:#fff !important; text-align:left !important }
+      /* Language flags grid for neat alignment */
+      .pdf-root ul.flags{ display:grid !important; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px !important; margin: 2px 0 6px 0 !important }
+      .pdf-two-col ul.flags{ grid-template-columns: repeat(3, minmax(0,1fr)) }
+      .pdf-root ul.flags li{ min-height: 36px !important; padding: 10px !important; box-shadow:none !important; transform:none !important; border:1px solid rgba(20,91,255,0.1) !important }
       /* Allow timeline items to break across pages without clipping */
       .pdf-root .timeline{ break-inside: auto; page-break-inside: auto; }
-      .pdf-root .timeline-item{ break-inside: auto; page-break-inside: auto; display:block !important; }
+      .pdf-root .timeline-item{ break-inside: auto; page-break-inside: auto; display:block !important; padding:8px !important }
       .pdf-root .timeline-item .logo{ float:left; margin-right:10px; }
-      .pdf-root .timeline-bullets li{ break-inside:auto; page-break-inside:auto; }
+      .pdf-root .timeline-bullets li{ break-inside:auto; page-break-inside:auto; margin:4px 0 !important }
       .pdf-root .timeline-content{ max-height: none !important; overflow: visible !important; }
       /* Shrink oversized timeline fonts for PDF to avoid overflow */
       .pdf-root .timeline-item h4{ font-size: 15px !important; line-height: 1.3 !important }
@@ -745,6 +756,7 @@ function initializePdfExporter(){
       /* Normalize image/icon sizing in PDF */
       .pdf-root img{ max-width: 100% !important; height: auto !important }
       .pdf-root svg{ height: auto !important; max-width: 100% !important }
+      .pdf-root img, .pdf-root svg{ vertical-align: top }
       .pdf-root .avatar-img{ width: 96px !important; height: 96px !important; border-width: 2px !important }
       .pdf-root .profile-icon{ width: 14px !important; height: 14px !important }
       .pdf-root .flag-emoji{ width: 20px !important; height: 14px !important }
