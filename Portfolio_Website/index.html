@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>About — Abbas Molvi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons/css/flag-icons.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<script src="script.js"></script>
+
+</head>
+<body>
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="profile-mini">
+      <img src="images/Professional_Desk_Profile.png" alt="Abbas Molvi" class="profile-mini-img">
+      <div class="profile-mini-info">
+        <h3>Abbas Molvi</h3>
+        <p>Freelancer</p>
+      </div>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search portfolio..." class="search-input">
+    <button id="searchBtn" class="search-btn" aria-label="Search">
+      <span>🔍</span>
+    </button>
+  </div>
+  
+  <ul class="nav-menu">
+    <li class="nav-item active" data-page="summary">
+      <a href="#summary" class="nav-link">
+        <span class="nav-icon">👤</span>
+        <span class="nav-text">Summary</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="experience">
+      <a href="#experience" class="nav-link">
+        <span class="nav-icon">💼</span>
+        <span class="nav-text">Work Experience</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="skills">
+      <a href="#skills" class="nav-link">
+        <span class="nav-icon">⚡</span>
+        <span class="nav-text">Skills</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="education">
+      <a href="#education" class="nav-link">
+        <span class="nav-icon">🎓</span>
+        <span class="nav-text">Education</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="languages">
+      <a href="#languages" class="nav-link">
+        <span class="nav-icon">🗣️</span>
+        <span class="nav-text">Languages</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="travel">
+      <a href="#travel" class="nav-link">
+        <span class="nav-icon">🌍</span>
+        <span class="nav-text">Travel & Countries</span>
+      </a>
+    </li>
+    <li class="nav-item" data-page="hobbies">
+      <a href="#hobbies" class="nav-link">
+        <span class="nav-icon">🎯</span>
+        <span class="nav-text">Hobbies & Interests</span>
+      </a>
+    </li>
+  </ul>
+  
+  <div class="sidebar-footer">
+    <div class="contact-mini">
+      <a href="tel:+918602860182" class="contact-link">📞 +91 8602-8601-82</a>
+      <a href="mailto:abbasalimolvi@gmail.com" class="contact-link">✉️ abbasalimolvi@gmail.com</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu Button -->
+<button class="mobile-menu-btn" id="mobileMenuBtn" style="display: none;">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<!-- Sidebar Overlay for Mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Main Content Area -->
+<div class="main-content" id="mainContent">
+  <div class="content-wrapper">
+  <div class="card" id="mainCard">
+
+    <!-- Header -->
+    <header>
+      <img src="images/Professional_Desk_Profile.png" alt="Abbas Molvi - Professional headshot" class="avatar-img" id="avatar" loading="lazy">
+      <div class="header-content">
+        <div class="name-section">
+          <h1 class="name-title">Abbas Molvi</h1>
+        </div>
+
+        <div class="contact-landscape" style="margin-top:15px">
+          <!-- First line: Phone and Email -->
+          <div class="contact-row contact-primary">
+            <a href="tel:+918602860182" class="contact-item" role="listitem" aria-label="Call phone number">
+              <span class="contact-icon">📞</span>
+              <span class="contact-text">+91 8602-8601-82</span>
+            </a>
+            <a href="mailto:abbasalimolvi@gmail.com" class="contact-item" role="listitem" aria-label="Send email">
+              <span class="contact-icon">✉️</span>
+              <span class="contact-text">abbasalimolvi@gmail.com</span>
+            </a>
+        </div>
+
+          <!-- Second line: LinkedIn, Upwork and Download Resume -->
+          <div class="contact-row contact-profiles">
+            <a href="https://linkedin.com/in/abbasmolvi-6a53a6202" target="_blank" rel="noopener noreferrer" class="contact-item profile-item" role="listitem" aria-label="Visit LinkedIn profile">
+              <svg class="profile-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              <span class="contact-text">LinkedIn Profile</span>
+            </a>
+            <a href="https://www.upwork.com/freelancers/~01e048520f6cb273c4" target="_blank" rel="noopener noreferrer" class="contact-item profile-item" role="listitem" aria-label="Visit Upwork profile">
+              <img src="images/upwork-svgrepo-com.svg" alt="Upwork" class="profile-icon">
+              <span class="contact-text">Upwork Profile</span>
+            </a>
+            <button class="btn secondary download-resume-btn" id="downloadResume" aria-label="Download resume as PDF" title="Download resume">
+              <img src="images/pdf-svgrepo-com.svg" alt="PDF" class="btn-icon">
+              <span>Download (PDF)</span>
+            </button>
+        </div>
+        <div class="contact-quote-line" aria-hidden="false">
+          <span class="spark">✨</span>
+          <em><strong>Success is not about being the best, but about always getting better!</strong></em>
+        </div>
+        </div>
+
+      </div>
+
+      <!-- cool header graphics -->
+      <div class="header-right">
+      <div class="header-graphic" aria-hidden="true">
+        <div class="icon-blob" title="Global"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z" stroke="#145bff" stroke-width="1.4" fill="none"/><path d="M2 12h20M12 2c2.5 2.2 3 6 3 10s-.5 7.8-3 10" stroke="#0b6f5b" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        <div class="icon-blob" title="Data"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="6" width="18" height="12" rx="2" stroke="#145bff" stroke-width="1.4"/><path d="M7 10h10M7 14h6" stroke="#0b6f5b" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="tools tools-vertical" role="toolbar" aria-label="Interactive controls">
+          <button class="btn" id="playIntro" aria-label="Play 25 second introduction audio" title="Play audio introduction">Play 25s Intro ▶</button>
+          <button class="btn secondary" id="startTour" aria-label="Start guided tour of the page" title="Start guided tour">Start Guided Tour</button>
+          <button class="btn ghost" id="stopSpeech" aria-label="Stop current speech" title="Stop speech">Stop Speech</button>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- Professional Summary -->
+    <section class="summary-section" id="summary-overview">
+      <div class="summary-intro">
+        <p class="summary-main-text">🌟 Dynamic professional with 12+ years of experience spanning International Trade Compliance, Quality Assurance,
+        Technical Support, Recruitment, B2B lead generation, and EdTech operations. Proven track record of driving operational
+        excellence, optimizing compliance workflows, and ensuring high-quality client and customer engagement across global
+        markets.</p>
+        <p class="summary-main-text">🤝 Recognized for client-facing leadership, cross-functional collaboration, and mentoring,
+          with the ability to adapt
+          quickly to new domains while consistently exceeding performance metrics and driving process improvements across
+          diverse
+          industries and global teams.</p>
+        <p class="summary-main-text">💻 Earlier career success includes delivering enterprise-level technical support
+          (Microsoft, Dropbox, Akamai),
+          full-cycle IT & non-IT recruitment for Fortune 500 clients, and quality evaluation for telecom and B2B demand
+          generation
+          campaigns. Experienced in SEO-driven content management, digital marketing, and eCommerce platforms, with hands-on
+          involvement in crowdfunding campaigns and online learning ecosystems.</p>
+        <p class="summary-main-text">🌍 Skilled in trade compliance management (HTS/HS classification, ADD/CVD interpretation, PGA/OGA regulations), ETL
+        pipeline development, and data intelligence using Python, SQL, and SAP systems. Adept at leveraging AI, automation, and
+        workflow optimization to streamline reporting, improve efficiency, and enhance decision-making.</p>
+
+        
+      </div>
+    </section>
+
+    
+
+    <!-- Travel intro content (moved to Travel page by script) -->
+    <section class="question-section" id="question-2" role="region" aria-labelledby="question-2-title" style="display:none">
+      <div class="question-header" style="display:none">
+        <div class="question-number" aria-hidden="true">2</div>
+        <div class="question-content">
+          <h2 id="question-2-title">Travel Intro</h2>
+        </div>
+      </div>
+      <div class="answer-content">
+        <div class="origin-story">
+          <h3>My Global Journey:</h3>
+          <p>I'm originally from <strong>India</strong>, but I've lived and worked across <strong>8 countries</strong> visiting <strong>37 cities</strong> spanning in three continents. Each place has shaped my worldview and professional approach. I consider myself a global citizen who finds belonging in diverse cultures.</p>
+        </div>
+        
+        <div class="travel-experiences">
+          <h3>My Travel Experiences Across Continents:</h3>
+          <div class="country-grid">
+            <div class="country-experience">
+              <div class="country-flag fi fi-in"></div>
+              <div class="country-details">
+                <h4>India (My Homeland)</h4>
+                <p>Being raised here, I understand the complexity of Indian markets, the diversity of regional cuisines, and the entrepreneurial spirit that drives innovation. Mumbai's energy, Delhi's history, and Pune's tech scene all influenced my approach to problem-solving.</p>
+              </div>
+            </div>
+            
+            <div class="country-experience">
+              <div class="country-flag fi fi-tz"></div>
+              <div class="country-details">
+                <h4>Tanzania (East African Adventure)</h4>
+                <p>Living here taught me about resilience and community. The Serengeti's vastness, Zanzibar's spice markets, and Dar es Salaam's bustling streets showed me how different cultures approach trade and commerce. The Swahili language opened doors to understanding regional business practices.</p>
+              </div>
+            </div>
+            
+            <div class="country-experience">
+              <div class="country-flag fi fi-ae"></div>
+              <div class="country-details">
+                <h4>UAE (Modern Trade Hub)</h4>
+                <p>Dubai and Abu Dhabi showed me how vision and infrastructure can transform a region. The blend of traditional souks and modern malls, the multicultural workforce, and the focus on innovation taught me about global business dynamics and cultural integration.</p>
+              </div>
+            </div>
+            
+            <div class="country-experience">
+              <div class="country-flag fi fi-ke"></div>
+              <div class="country-details">
+                <h4>Kenya (East African Business Hub)</h4>
+                <p>Nairobi's tech scene, Mombasa's port activities, and the Maasai Mara's natural beauty showed me how technology, trade, and tradition can coexist. The entrepreneurial spirit here is infectious and taught me about innovation in emerging markets.</p>
+              </div>
+            </div>
+            
+            <div class="country-experience">
+              <div class="country-flag fi fi-om"></div>
+              <div class="country-details">
+                <h4>Oman (Cultural Bridge)</h4>
+                <p>Muscat's traditional architecture, Salalah's frankincense heritage, and Nizwa's ancient markets taught me about preserving culture while embracing modernity. The Omani approach to hospitality and business relationships influenced my professional communication style.</p>
+              </div>
+            </div>
+            
+            <div class="country-experience">
+              <div class="country-flag fi fi-eg"></div>
+              <div class="country-details">
+                <h4>Egypt (Ancient Wisdom, Modern Challenges)</h4>
+                <p>Cairo's bustling streets, Alexandria's Mediterranean charm, and Luxor's historical treasures taught me about resilience and adaptation. The Egyptian approach to problem-solving and community support influenced my leadership style.</p>
+              </div>
+            </div>
+            
+            <div class="country-experience">
+              <div class="country-flag fi fi-qa"></div>
+              <div class="country-details">
+                <h4>Qatar (Vision and Innovation)</h4>
+                <p>Doha's modern skyline, Souq Waqif's traditional charm, and the focus on education and innovation taught me about long-term thinking and investment in human capital. The Qatari approach to development and international relations shaped my understanding of global partnerships.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="travel-recommendation"></div>
+      </div>
+    </section>
+
+    
+
+    <!-- Skills -->
+    <section id="section-skills">
+      <div class="label">Skills & Domains</div>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">🌍</span><h4>International Trade Compliance & Data Intelligence</h4></div>
+          <ul class="skill-list">
+            <li>Duty rates, Anti-Dumping Duties (ADD), Countervailing Duties (CVD) interpretation</li>
+            <li>Familiar with PGA/OGA regulations (FDA, USDA, BIS, etc.)</li>
+            <li>Customs data analysis from CBP, USITC, and international authorities (US, Switzerland, India, Russia, Qatar, Macedonia, Moldova, Albania, Cuba, Kazakhstan, Algeria, Malaysia, Vietnam, Pakistan, Bangladesh, Sri Lanka, East Africa)</li>
+            <li>Web scraping, data cleansing, transformation, and compliance reporting</li>
+            <li>Client-facing compliance support & SLA management</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">🤖</span><h4>AI, Python & Workflow Automation</h4></div>
+          <ul class="skill-list">
+            <li>Python scripting to automate SAP XML data handling and reporting</li>
+            <li>Built ETL pipelines for SAP systems (GTS 11, E4HANA, S/4HANA)</li>
+            <li>Workflow automation & AI integrations (ChatGPT, Gemini, Claude, Make AI)</li>
+            <li>Data analysis with Pandas, SQL, and Excel (Advanced)</li>
+            <li>Automation for web scraping, lead data processing, and CRM data entry</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">☎️</span><h4>Technical Support & Customer Experience</h4></div>
+          <ul class="skill-list">
+            <li>End-to-end support for Microsoft, Dropbox, and Akamai products</li>
+            <li>Licensing, activation, subscription management via Microsoft Admin Panel</li>
+            <li>Multi-channel support: Calls, Email, Chat</li>
+            <li>Case management and escalation tracking (Microsoft Dynamics, AT&T CRM)</li>
+            <li>Strong CSAT through empathetic communication & quick resolution</li>
+            <li>Telecom processes knowledge, SOP adherence, compliance in interactions</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">📝</span><h4>Quality Assurance & Process Improvement</h4></div>
+          <ul class="skill-list">
+            <li>Call/email/chat monitoring (SOAR, iLead, CRM QA platforms)</li>
+            <li>B2B lead quality evaluation (BANT, MQL, SQL, HQL models)</li>
+            <li>ABM campaign audits, TAL checks, suppression list management</li>
+            <li>Coaching, training, onboarding to maintain QA standards</li>
+            <li>Calibration sessions and feedback for performance optimization</li>
+            <li>Root-cause analysis; contribution to process upgrades</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">📊</span><h4>Lead Generation & Business Development</h4></div>
+          <ul class="skill-list">
+            <li>B2B lead generation for Microsoft, IBM, Oracle, Salesforce, Adobe, ZoomInfo, Zendesk</li>
+            <li>Lead models (BANT, MQL, SQL, HQL) and ABM campaigns</li>
+            <li>Prospect and client listening programs to improve outreach</li>
+            <li>CRM-based lead tracking and reporting</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">📈</span><h4>SEO, Content & Digital Marketing</h4></div>
+          <ul class="skill-list">
+            <li>Keyword research, SEO audits, SEMrush-driven optimization</li>
+            <li>Blog proofing, editing, publishing (WordPress Elementor)</li>
+            <li>Google Ads campaign setup & optimization</li>
+            <li>Crowdfunding: Kickstarter/IndieGoGo strategy and execution</li>
+            <li>Social media management (Hootsuite, campaign analytics, CTR tracking)</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">👥</span><h4>Recruitment & Talent Acquisition</h4></div>
+          <ul class="skill-list">
+            <li>Full-cycle recruitment (sourcing, screening, negotiation, onboarding)</li>
+            <li>Roles: IT (Java, Cybersecurity, DBA), Non-IT (Finance, Legal, Risk, Audit), niche (CV/ML, eCommerce)</li>
+            <li>Top-college hiring (IIT, IIIT, NIT, BITS, IISc)</li>
+            <li>Platforms: LinkedIn Navigator, Dice, Techfetch, CareerBuilder, Monster, Indeed, Naukri, Internshala</li>
+            <li>Resume formatting, rate confirmation, candidate engagement</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">🗂</span><h4>CRM, PM & Finance Tools</h4></div>
+          <ul class="skill-list">
+            <li>CRMs: Salesforce, Zoho, Microsoft Dynamics, AT&T CRM, Zendesk</li>
+            <li>Project Management: JIRA, Asana, Basecamp, ClickUp, Mattermost</li>
+            <li>Finance: QuickBooks, Xero, Excel reporting</li>
+            <li>Ticketing: Helpdesk platforms for student/client support</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">🛒</span><h4>eCommerce & Web Management</h4></div>
+          <ul class="skill-list">
+            <li>Shopify, Amazon, eBay, Craigslist store setup & management</li>
+            <li>Website development & management (HTML/CSS, WordPress, Cloudflare hosting)</li>
+            <li>Campaign management for online sales and promotions</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <div class="skill-header"><span class="skill-icon">💡</span><h4>Soft Skills & Leadership</h4></div>
+          <ul class="skill-list">
+            <li>Stakeholder & client management (exec reporting, escalation handling)</li>
+            <li>Cross-cultural communication (US, EU, APAC, MENA regions)</li>
+            <li>Coaching, mentoring, and training new team members</li>
+            <li>Strong multitasking in high-pressure, fast-paced environments</li>
+            <li>Data-driven decision-making and process optimization</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="section-education" role="region" aria-labelledby="education-label">
+      <div class="label" id="education-label">Education</div>
+      <div class="hobbies-grid">
+        <div class="hobby-item">
+          <div class="hobby-icon">🎓</div>
+          <h4>B.Com — D.A.V.V. University</h4>
+          <p>Indore, India · 2013–2016</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🎓</div>
+          <h4>M.B.A. — Delhi University</h4>
+          <p>Delhi, India · 2019–2021</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🏫</div>
+          <h4>Secondary Schooling</h4>
+          <p>Arusha Modern School, Arusha (Tanzania)</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">📜</div>
+          <h4>Certifications</h4>
+          <p>Python (Udemy); SAP GTS (Udemy); OpenCV Computer Vision (OpenCV University); Tally ERP (2012)</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🏅</div>
+          <h4>Achievements</h4>
+          <p>3rd in College during B.Com; 1st in Sprint Race (school)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section id="section-timeline">
+      <div class="label">Work Experience Timeline</div>
+      <div class="timeline" id="timelineRoot">
+
+        <!-- PST.AG — International Trade Compliance & Regulations Manager -->
+        <div class="timeline-item" data-company="pst-manager" id="item-pst-manager">
+          <img src="images/PST_AG.png" alt="PST Logo" class="logo">
+          <div class="timeline-meta">
+            <h4><span class="timeline-company">PST.AG</span> <span class="timeline-sep">•</span> <span class="timeline-role">Regulations Manager</span></h4>
+            <span><strong>Jun 2022 – Sep 2025</strong> · Weimar, Germany (Remote)</span>
+            <div class="timeline-content">
+              <p>As a Regulations Manager for International Trade Compliance, I managed end-to-end operations for assigned countries,
+              coordinating between clients, internal teams, and executive leadership. My role involved assigning workloads, mentoring
+              teammates, coordinating with the CEO on process setup and improvements, and directly engaging with clients for
+              compliance and data-related issue resolution.</p>
+              <ul class="timeline-bullets">
+                <li>Interpreted duty rates, Anti-Dumping Duties (ADD), and Countervailing Duties (CVD) for accurate cost and compliance
+                reporting.</li>
+                <li>Served as the primary point of contact for global clients, handling issue resolution, compliance clarifications, and
+                reporting directly with clients to ensure smooth operations.</li>
+                <li>Coordinated with the CEO and senior leadership to design, test, and roll out new compliance workflows.</li>
+                <li>Applied knowledge of PGA/OGA regulations including FDA, USDA, BIS, and other relevant authorities.</li>
+                <li>Mentored and guided team members on trade compliance best practices, HTS/HSC accuracy, and data quality standards.</li>
+                <li>Worked closely with the CEO and leadership team to design, refine, and implement compliance processes and SOPs.</li>
+                <li>Acted as the primary contact for clients, handling escalations, resolving compliance issues, and ensuring SLA
+                adherence.</li>
+                <li>Built ETL pipelines to process raw trade and customs data for integration into SAP GTS 11, E4HANA, and S/4HANA
+                systems.</li>
+                <li>Design and maintain data transformation pipelines that process thousands of tariff updates daily, ensuring 99.9%
+                accuracy in regulatory data delivery.</li>
+                <li>Conducted data scraping from global customs portals, performing data cleansing and transformation.</li>
+                <li>Managed and analyzed customs and trade data from multiple authorities including CBP, USITC, and global customs
+                agencies across the US, Switzerland, India, Russia, Qatar, Macedonia, Moldova, Albania, Cuba, Kazakhstan, Algeria,
+                Malaysia, Vietnam, Pakistan, Bangladesh, Sri Lanka, and East Africa.</li>
+              </ul>
+              <strong>Tools & Technologies Used:</strong>
+              <ul class="timeline-bullets">
+              <li><strong>CRM & Project Management:</strong> JIRA, ZenDesk, Mattermost</li>
+              <li><strong>Data Processing & ETL:</strong> Python, SQL, Excel, Pandas, Apache Ni-Fi, etc.</li>
+              <li><strong>Web Scraping & Automation:</strong> Dexi, Python (BeautifulSoup, Selenium)</li>
+              <li><strong>Customs & Trade Data Sources:</strong> CBP, USITC, various global customs portals</li>
+            </div>
+          </div>
+        </div>
+
+        <!-- OpenCV University -->
+        <div class="timeline-item" data-company="opencv">
+          <img src="images/Opencv_Logo.png" alt="OpenCV Logo" class="logo">
+          <div class="timeline-meta">
+            <h4><span class="timeline-company">OpenCV University (DeepVidya AI)</span> <span class="timeline-sep">•</span> <span class="timeline-role">Assistant Manager</span></h4>
+            <span><strong>Oct 2020 – May 2022</strong> · Bangalore, India (Remote)</span>
+            <div class="timeline-content">
+              <p>As an Assistant Manager, I managed HR operations, course development, academic support, content management, and
+              marketing initiatives for OpenCV University, ensuring smooth delivery of CV/ML courses, student engagement, and quality
+              content.</p>
+              <ul class="timeline-bullets">
+                <li>Managed the HR Department, including sourcing and hiring candidates via LinkedIn, Indeed, UpWork, Naukri.com for roles
+                such as Computer Vision Engineer, Deep Learning Engineer, Creative Director, Website Developer, Enrollment Specialist,
+                and Interns.</li>
+                <li>Recruited interns from top Indian colleges (IIT, IIIT, NIT, BITS, IISc) via Internshala for CV/ML course development
+                projects.</li>
+                <li>Oversaw onboarding, payroll, offer letters, and assisted during employee exit processes.</li>
+                <li>Developed and managed courses on the Learning Management System (LMS), including content upload, structuring modules,
+                and handling course workflows.</li>
+                <li>Provided student support, addressing course inquiries, complaints, and guidance.</li>
+                <li>Proofread and optimized technical blogs for SEO, publishing them on LearnOpenCV.com via WordPress Elementor.</li>
+                <li>Managed marketing campaigns on Kickstarter and IndieGoGo, including planning, execution, and analytics.</li>
+                <li>Handled customer support tickets through Helpdesk systems for course inquiries and complaints.</li>
+                <li>Conducted community surveys and assisted in organizing annual Computer Vision competitions sponsored by Microsoft and
+                Intel.</li>
+                <li>Assisted in website design and development, improving user experience and functionality.</li>
+              </ul>
+              <strong>Tools Used:</strong>
+              <ul class="timeline-bullets">
+                <li><strong>Project Management:</strong> Basecamp, Asana</li>
+                <li><strong>Recruitment & Sourcing:</strong> LinkedIn, Indeed, UpWork, Naukri.com, Internshala</li>
+                <li><strong>Course & LMS Management:</strong> Learning Management System (LMS) for course creation and administration</li>
+                <li><strong>Content Management & Blogging:</strong> WordPress Elementor, SEM Rush for SEO</li>
+                <li><strong>Customer Support:</strong> Helpdesk</li>
+                <li><strong>Crowdfunding Campaigns:</strong> Kickstarter, IndieGoGo</li>
+                <li><strong>Website Development & Design:</strong> HTML/CSS, JavaScript, WordPress Elementor</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inventive -->
+        <div class="timeline-item" data-company="inventive">
+          <img src="images/Inventive_Logo.png" alt="Inventive Logo" class="logo">
+          <div class="timeline-meta">
+            <h4><span class="timeline-company">Inventive SMi</span> <span class="timeline-sep">•</span> <span class="timeline-role">Sr. Quality Analyst</span></h4>
+            <span><strong>Feb 2019 – Oct 2020</strong> · Pune, India</span>
+            <div class="timeline-content">
+              <p>As a Sr. Quality Analyst in the B2B IT lead generation and business development sector, I ensured high-quality
+              interactions, accurate lead handling, and process optimization for Business Development Executives across top-tier
+              clients.</p>
+              <ul class="timeline-bullets">
+                <li>Monitored 50–70 BDE calls daily, providing actionable feedback to improve lead quality and conversion rates.</li>
+                <li>Evaluated BANT, MQL, SQL, and HQL leads, ensuring precise qualification and compliance with client standards.</li>
+                <li>Executed ABM campaigns, performing TAL and suppression list checks to maintain targeting accuracy.</li>
+                <li>Contributed to process upgrades, evaluation programs, and QA initiatives, driving improved service quality.</li>
+              </ul>
+              <p><strong>Clients:</strong> Microsoft, Spectrum, Akamai, Magento, Perceptyx, PeopleDoc, ZoomInfo, Collibra, Zendesk, Oracle<br>
+              <strong>Tools:</strong> CRM & Lead Management Systems, iLead (internal auditing), Microsoft Excel, Outlook</p>
+            </div>
+          </div>
+        </div>
+        <!-- Facile Infoserv -->
+        <div class="timeline-item" data-company="facile">
+          <img src="images/Facile-svg-logo.svg" alt="Facile Infoserv" class="logo">
+          <div class="timeline-meta">
+            <h4><span class="timeline-company">Facile Info-Serv Pvt. Ltd.</span> <span class="timeline-sep">•</span> <span class="timeline-role">Quality Specialist</span></h4>
+            <span><strong>Aug 2018 – Feb 2019</strong> · Pune, India</span>
+            <div class="timeline-content">
+              <p>As a Quality Specialist in the B2B IT Lead Generation sector, I ensured high-quality interactions, accurate lead
+              handling, and process optimization for Demand Generation teams working on leads for major clients.</p>
+              <ul class="timeline-bullets">
+                <li>Monitored calls and interactions of Demand Generation Specialists, providing actionable feedback to improve
+                performance and lead quality.</li>
+                <li>Evaluated and tracked BANT, MQL, SQL, and HQL leads to ensure proper qualification according to client criteria.</li>
+                <li>Conducted ABM (Account-Based Marketing) activities, ensuring targeted outreach to priority accounts.</li>
+                <li>Performed TAL (Target Account List) checks and suppression list checks to maintain campaign accuracy and compliance.</li>
+                <li>Generated daily, weekly, and monthly quality reports to track performance trends and share insights with management,
+                team leaders, and agents.</li>
+                <li>Coordinated and facilitated call calibration sessions to maintain consistency in quality evaluations.</li>
+                <li>Provided training and coaching to new joiners to ensure consistent adherence to client standards.</li>
+                <li>Maintained ability to perform multiple tasks and adapt quickly in a fast-paced environment with minimal supervision.</li>
+              </ul>
+              <strong>Clients & Lead Campaigns Handled:</strong>
+              <ul class="timeline-bullets">
+                <li><strong>Clients:</strong> Microsoft, IBM, Marketo, Salesforce, Adobe, Oracle</li>
+                <li><strong>Lead Types:</strong> BANT (Budget, Authority, Need, Timeline), MQL (Marketing Qualified Leads), SQL (Sales Qualified Leads), HQL
+                (High-Quality Leads)</li>
+              </ul>
+              <strong>Tools Used:</strong>
+              <ul class="timeline-bullets">
+                <li><strong>CRM & Lead Management Systems</strong> (for reviewing interactions and tracking leads)</li>
+                <li><strong>Quality Monitoring & Data Management Tools</strong></li>
+                <li><strong>Microsoft Excel & Thunderbird</strong> (for reporting and communication)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Convergys -->
+        <div class="timeline-item" data-company="convergys">
+          <img src="images/Convergys_Logo.png" alt="Convergys Logo" class="logo">
+          <div class="timeline-meta">
+            <h4><span class="timeline-company">Convergys Corporation</span> <span class="timeline-sep">•</span> <span class="timeline-role">Quality Evaluator (AT&T SOAR)</span></h4>
+            <span><strong>Sep 2016 – Jul 2018</strong> · Gurgaon, India</span>
+            <div class="timeline-content">
+              <p>As a Quality Evaluator at AT&T (SOAR), I was responsible for monitoring, assessing, and improving the quality of customer
+              interactions across multiple channels to ensure compliance with service standards and internal policies.</p>
+              <ul class="timeline-bullets">
+                <li>Evaluated calls, emails, and chat interactions to ensure adherence to AT&T quality guidelines, SOPs, and regulatory
+                requirements.</li>
+                <li>Provided detailed feedback and coaching recommendations to improve agent performance and customer satisfaction.</li>
+                <li>Identified trends in customer interactions and contributed to process improvement initiatives to enhance overall
+                service quality.</li>
+                <li>Maintained accurate evaluation records and generated reports for management review.</li>
+                <li>Collaborated with team leads, trainers, and quality teams to ensure consistent evaluation standards.</li>
+                <li>Assisted in escalation tracking and documentation to identify recurring issues or compliance gaps.</li>
+                </ul>
+              <strong>Tools Used:</strong>
+              <ul class="timeline-bullets">
+                <li>SOAR Platform (for quality evaluation workflows)</li>
+                <li>AT&T CRM systems (for customer interaction tracking)</li>
+                <li>Microsoft Excel & Outlook (for reporting and documentation)</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- LanceSoft -->
+        <div class="timeline-item" data-company="lancesoft">
+          <img src="images/LanceSoft_Logo.png" alt="Lancesoft Logo" class="logo">
+          <div class="timeline-meta">
+            <h4><span class="timeline-company">LanceSoft Inc.</span> <span class="timeline-sep">•</span> <span class="timeline-role">US IT Recruiter</span></h4>
+            <span><strong>Nov 2015 – Aug 2016</strong> · Indore, India</span>
+            <div class="timeline-content">
+              <p>As a full-cycle recruiter for US-based clients, I managed the end-to-end recruitment process for both IT and non-IT
+              positions across multiple Fortune 500 companies. My role encompassed sourcing, screening, coordination, and onboarding
+              while ensuring compliance with client standards and timely delivery.</p>
+              <ul class="timeline-bullets">
+                <li>Sourced candidates via LinkedIn Navigator, CareerBuilder, Monster, Techfetch, Dice, Indeed, and internal ATS systems.</li>
+                <li>Managed IT roles including Java Developer, Solutions Architect, Cybersecurity Specialist, Network Administrator, IT
+                Project Manager, Database Administrator (DBA), Product Manager (Technical), and IT Operations Manager.</li>
+                <li>Managed non-IT roles including Controller, Finance Manager, Paralegal, Accounting Manager, Risk Manager, Auditor, and
+                related positions.</li>
+                <li>Worked with Fortune 500 clients such as Verizon, Caterpillar, GMAC, Ocwen, UPS, among others.</li>
+                <li>Recruited for W2 and C2C positions, ensuring alignment with client requirements and employment type preferences.</li>
+                <li>Utilized VMS platforms like Beeline, SAP Fieldglass, and IQNavigator to upload candidates and track submission
+                progress.</li>
+                <li>Formatted resumes according to client-specific standards and coordinated with candidates via email to confirm rates,
+                responsibilities, and other key details.</li>
+                <li>Ensured high-quality candidate experience and timely follow-up throughout the recruitment lifecycle.</li>
+                <li>Collaborated with hiring managers and internal teams to improve talent pipeline efficiency and sourcing strategies.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teleperformance -->
+        <div class="timeline-item" data-company="teleperformance">
+          <img src="images/Teleperformance-Logo.jpg" alt="Teleperformance Logo" class="logo">
+          <div class="timeline-meta">
+            <h4><span class="timeline-company">Teleperformance SE</span> <span class="timeline-sep">•</span> <span class="timeline-role">Technical Support Specialist (Ingram Micro)</span></h4>
+            <span><strong>Oct 2013 – Nov 2014</strong> · Indore, India</span>
+            <div class="timeline-content">
+              <p>As part of the Ingram Micro support process at Teleperformance, I delivered end-to-end technical assistance to business
+              clients across Microsoft, Akamai, and Dropbox products. My role involved handling customer interactions through Calls,
+              Emails, and Chat, ensuring timely resolution of licensing, activation, and subscription-related issues.</p>
+              <ul class="timeline-bullets">
+                <li>Managed a daily workload of 15–20 calls and 30–40 emails, consistently meeting SLAs and maintaining high-quality
+                customer experience.</li>
+                <li>Supported clients with product activation, subscription management, and licensing issues via the Microsoft Admin Panel
+                and other enterprise tools.</li>
+                <li>Ensured seamless communication by accurately documenting cases in Microsoft Dynamics and escalating complex issues
+                when required.</li>
+                <li>Maintained strong customer satisfaction (CSAT) scores through clear communication, empathetic support, and quick
+                problem resolution.</li>
+                <li>Tools: Microsoft Admin Panel, Microsoft Dynamics, X-lite, Sparx, Excel, Outlook, TPRMS.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Countries -->
+    <section id="section-countries" role="region" aria-labelledby="countries-label">
+      <div class="label" id="countries-label">Countries I've Experienced</div>
+      <div style="margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn" id="modalMode" style="font-size: 12px; padding: 6px 12px;" aria-label="Click country flags for detailed information">Click for Details</button>
+      </div>
+      <ul class="flags" role="list" aria-label="List of countries I have experienced">
+        <li data-country="tanzania" data-flag="tz" data-name="Tanzania" role="listitem" tabindex="0" aria-label="Tanzania - Click for details about cities, places, and food" title="Click for Tanzania details">
+          <span class="flag-emoji fi fi-tz" aria-hidden="true"></span>
+          <span class="country-name">Tanzania</span>
+        </li>
+        <li data-country="uae" data-flag="ae" data-name="United Arab Emirates" role="listitem" tabindex="0" aria-label="United Arab Emirates - Click for details about cities, places, and food" title="Click for UAE details">
+          <span class="flag-emoji fi fi-ae" aria-hidden="true"></span>
+          <span class="country-name">UAE</span>
+        </li>
+        <li data-country="india" data-flag="in" data-name="India" role="listitem" tabindex="0" aria-label="India - Click for details about cities, places, and food" title="Click for India details">
+          <span class="flag-emoji fi fi-in" aria-hidden="true"></span>
+          <span class="country-name">India</span>
+        </li>
+        <li data-country="kenya" data-flag="ke" data-name="Kenya" role="listitem" tabindex="0" aria-label="Kenya - Click for details about cities, places, and food" title="Click for Kenya details">
+          <span class="flag-emoji fi fi-ke" aria-hidden="true"></span>
+          <span class="country-name">Kenya</span>
+        </li>
+        <li data-country="oman" data-flag="om" data-name="Oman" role="listitem" tabindex="0" aria-label="Oman - Click for details about cities, places, and food" title="Click for Oman details">
+          <span class="flag-emoji fi fi-om" aria-hidden="true"></span>
+          <span class="country-name">Oman</span>
+        </li>
+        <li data-country="egypt" data-flag="eg" data-name="Egypt" role="listitem" tabindex="0" aria-label="Egypt - Click for details about cities, places, and food" title="Click for Egypt details">
+          <span class="flag-emoji fi fi-eg" aria-hidden="true"></span>
+          <span class="country-name">Egypt</span>
+        </li>
+        <li data-country="qatar" data-flag="qa" data-name="Qatar" role="listitem" tabindex="0" aria-label="Qatar - Click for details about cities, places, and food" title="Click for Qatar details">
+          <span class="flag-emoji fi fi-qa" aria-hidden="true"></span>
+          <span class="country-name">Qatar</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Languages -->
+    <section id="section-langs" role="region" aria-labelledby="languages-label">
+      <div class="label" id="languages-label">Languages I Understand</div>
+      <ul class="flags" role="list" aria-label="List of languages I understand">
+        <li role="listitem" aria-label="English - Fluent, Professional use">
+          <span class="flag-emoji fi fi-gb" aria-hidden="true"></span>
+          <span class="country-name">English</span>
+          <div class="language-subtitle">Fluent — Professional use</div>
+        </li>
+        <li role="listitem" aria-label="Hindi - Native-level fluency">
+          <span class="flag-emoji fi fi-in" aria-hidden="true"></span>
+          <span class="country-name">Hindi</span>
+          <div class="language-subtitle">Native-level fluency</div>
+        </li>
+        <li role="listitem" aria-label="Swahili - Learned in East Africa">
+          <span class="flag-emoji fi fi-tz" aria-hidden="true"></span>
+          <span class="country-name">Swahili</span>
+          <div class="language-subtitle">Learned in East Africa</div>
+        </li>
+        <li role="listitem" aria-label="Gujarati - Family language">
+          <span class="flag-emoji fi fi-in" aria-hidden="true"></span>
+          <span class="country-name">Gujarati</span>
+          <div class="language-subtitle">Family language</div>
+        </li>
+        <li role="listitem" aria-label="Marathi - Regional fluency">
+          <span class="flag-emoji fi fi-in" aria-hidden="true"></span>
+          <span class="country-name">Marathi</span>
+          <div class="language-subtitle">Regional fluency</div>
+        </li>
+
+    <!-- Hobbies -->
+    <section id="section-hobbies">
+      <div class="label">Hobbies & Interests</div>
+      <div class="hobbies-grid">
+        <div class="hobby-item">
+          <div class="hobby-icon">📊</div>
+          <h4>Finance</h4>
+          <p>Studying markets, frameworks and practical finance to understand how money moves.</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🧠</div>
+          <h4>Human Psychology</h4>
+          <p>Reading about decision-making and behaviour to better understand people and teams.</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🌍</div>
+          <h4>International Trade</h4>
+          <p>Continuously exploring tariff rules, customs processes and global trade patterns.</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🍽️</div>
+          <h4>Travel & Food</h4>
+          <p>Exploring diverse cultures through their cuisines and traditions. From Tanzanian street markets to Omani frankincense souks, I find belonging in the shared human experience of food and place.</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">💭</div>
+          <h4>Philosophy</h4>
+          <p>Exploring existential questions and finding meaning in different cultural perspectives. I believe in the interconnectedness of all experiences and the wisdom found in diverse worldviews.</p>
+        </div>
+        <div class="hobby-item">
+          <div class="hobby-icon">🎵</div>
+          <h4>Music</h4>
+          <p>Discovering diverse musical traditions from around the world. From classical Indian ragas to East African rhythms, music connects me to different cultures and provides a universal language of emotion and expression.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>© 2025 Abbas Molvi</footer>
+  </div>
+</div>
+</div>
+
+<!-- Chat Assistant -->
+<button id="chatToggle" class="chat-toggle" aria-label="Open chat assistant" title="Chat with Abbas Assistant">💬</button>
+<div id="chatWidget" class="chat-widget" aria-live="polite" aria-hidden="true">
+  <div class="chat-header">
+    <div class="chat-title">Assistant</div>
+    <div class="chat-actions">
+      <button id="chatClear" class="chat-clear" aria-label="Clear chat" title="Clear chat">🧹</button>
+      <button id="chatClose" class="chat-close" aria-label="Close chat" title="Close">×</button>
+    </div>
+  </div>
+  <div id="chatBody" class="chat-body" role="log"></div>
+  <div class="chat-suggestions" id="chatSuggestions" aria-hidden="true"></div>
+  <form id="chatForm" class="chat-input" autocomplete="off">
+    <input id="chatMessage" type="text" placeholder="Type your message..." aria-label="Chat message" />
+    <button type="submit" class="chat-send" aria-label="Send message">Send</button>
+  </form>
+  <div class="chat-hint">Tip: Ask about experience, resume, or guided tour.</div>
+</div>
+
+<!-- Modal Popup -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="flag-large fi fi-tz" id="modalFlag" aria-hidden="true"></span>
+      <h3 id="modalTitle">Tanzania</h3>
+      <button class="modal-close" id="modalClose" aria-label="Close modal" title="Close">×</button>
+    </div>
+    <div class="modal-body" id="modalBody" role="document">
+      <!-- Content will be populated by JavaScript -->
+    </div>
+  </div>
+</div>
+
+<!-- PDF Options Modal -->
+<div id="pdfOptionsOverlay" class="dialog-overlay" aria-hidden="true" role="dialog" aria-labelledby="pdfDialogTitle">
+  <div class="dialog" role="document">
+    <h3 id="pdfDialogTitle">Export to PDF</h3>
+    <p style="margin-top:0;color:#64748b;font-size:13px">Choose what to include. The PDF will keep the grid look and a clean layout.</p>
+    <div class="dialog-grid">
+      <label><input type="checkbox" id="pdfIncludeHeader" checked> Header (name, role, contact)</label>
+      <label><input type="checkbox" id="pdfIncludeSummary" checked> Summary</label>
+      <label><input type="checkbox" id="pdfIncludeExperience" checked> Work Experience</label>
+      <label><input type="checkbox" id="pdfIncludeSkills" checked> Skills</label>
+      <label><input type="checkbox" id="pdfIncludeEducation" checked> Education</label>
+      <label><input type="checkbox" id="pdfIncludeLanguages"> Languages</label>
+      <label><input type="checkbox" id="pdfIncludeHobbies"> Hobbies</label>
+      <label><input type="checkbox" id="pdfIncludeCountries"> Countries</label>
+    </div>
+    <div class="dialog-row">
+      <label style="display:flex;align-items:center;gap:8px">
+        Layout:
+        <select id="pdfLayout">
+          <option value="single">Single column</option>
+          <option value="two-col">Two column</option>
+        </select>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px">
+        Theme:
+        <select id="pdfTheme">
+          <option value="light">Light</option>
+          <option value="clean">Clean minimal</option>
+        </select>
+      </label>
+    </div>
+    <div class="dialog-actions">
+      <button id="pdfCancel" class="btn ghost" type="button">Cancel</button>
+      <button id="pdfGenerate" class="btn secondary" type="button">Generate PDF</button>
+    </div>
+  </div>
+  </div>
+</body>
+</html>
