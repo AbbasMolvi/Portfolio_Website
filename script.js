@@ -360,6 +360,48 @@ function createPageSections() {
       </div>
       <div id="section-hobbies"></div>
     </div>
+    <div class="page" id="page-downloads">
+      <div class="page-header">
+        <h1>📁 Downloads</h1>
+        <p>Files and resources available for download</p>
+      </div>
+      <section id="section-downloads" role="region" aria-labelledby="downloads-label">
+        <div class="downloads-toolbar">
+          <button class="btn secondary" id="toggleDownloadsAdmin" type="button">Manage Files</button>
+        </div>
+        <div class="downloads-admin-panel" id="downloadsAdminPanel" hidden>
+          <h3>Upload a File</h3>
+          <p class="downloads-admin-note">Upload files here, then click <strong>Publish to Site</strong> to make them available to all visitors.</p>
+          <form id="downloadsUploadForm" class="downloads-upload-form">
+            <div class="downloads-form-row">
+              <label for="downloadFileName">Display Name</label>
+              <input type="text" id="downloadFileName" placeholder="e.g. Project Portfolio PDF" required>
+            </div>
+            <div class="downloads-form-row">
+              <label for="downloadFileDesc">Description (optional)</label>
+              <input type="text" id="downloadFileDesc" placeholder="Brief description of the file">
+            </div>
+            <div class="downloads-form-row">
+              <label for="downloadFileInput">Choose File</label>
+              <div class="downloads-dropzone" id="downloadsDropzone">
+                <input type="file" id="downloadFileInput" aria-label="Choose file to upload">
+                <span class="downloads-dropzone-text">Drag & drop a file here, or click to browse</span>
+                <span class="downloads-dropzone-filename" id="downloadsSelectedFile"></span>
+              </div>
+            </div>
+            <div class="downloads-form-actions">
+              <button class="btn" type="submit">Upload File</button>
+              <button class="btn secondary" type="button" id="publishDownloadsBtn">Publish to Site</button>
+            </div>
+          </form>
+        </div>
+        <div class="downloads-grid" id="downloadsGrid" role="list" aria-label="Available downloads"></div>
+        <div class="downloads-empty" id="downloadsEmpty" hidden>
+          <div class="downloads-empty-icon">📂</div>
+          <p>No files available yet. Use <strong>Manage Files</strong> to upload.</p>
+        </div>
+      </section>
+    </div>
   `;
   
   // Replace main card content
@@ -1243,6 +1285,424 @@ function logAvailableVoices() {
   });
 }
 
+/* -------- Downloads / File Upload -------- */
+
+const DOWNLOADS_DB_NAME = 'portfolioDownloads';
+const DOWNLOADS_STORE = 'files';
+const DOWNLOADS_MANIFEST_PATH = 'downloads/manifest.json';
+const MAX_DOWNLOAD_SIZE = 10 * 1024 * 1024; // 10 MB
+
+const STATIC_DOWNLOADS = [
+  // Add permanent files here, e.g.:
+  // { id: 'resume', name: 'Resume', description: 'Latest CV', filePath: 'downloads/resume.pdf', icon: '📄' }
+];
+
+const FILE_ICONS = {
+  pdf: '📄',
+  doc: '📝',
+  docx: '📝',
+  xls: '📊',
+  xlsx: '📊',
+  ppt: '📽️',
+  pptx: '📽️',
+  zip: '🗜️',
+  rar: '🗜️',
+  png: '🖼️',
+  jpg: '🖼️',
+  jpeg: '🖼️',
+  gif: '🖼️',
+  svg: '🖼️',
+  mp4: '🎬',
+  mp3: '🎵',
+  txt: '📃',
+  csv: '📊',
+  default: '📎'
+};
+
+let publishedDownloads = [];
+let localDownloads = [];
+
+function openDownloadsDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DOWNLOADS_DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(DOWNLOADS_STORE)) {
+        db.createObjectStore(DOWNLOADS_STORE, { keyPath: 'id' });
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function getLocalDownloads() {
+  try {
+    const db = await openDownloadsDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(DOWNLOADS_STORE, 'readonly');
+      const store = tx.objectStore(DOWNLOADS_STORE);
+      const req = store.getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = () => reject(req.error);
+    });
+  } catch {
+    return [];
+  }
+}
+
+async function saveLocalDownload(entry) {
+  const db = await openDownloadsDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DOWNLOADS_STORE, 'readwrite');
+    tx.objectStore(DOWNLOADS_STORE).put(entry);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function deleteLocalDownload(id) {
+  const db = await openDownloadsDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DOWNLOADS_STORE, 'readwrite');
+    tx.objectStore(DOWNLOADS_STORE).delete(id);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function clearLocalDownloads() {
+  const db = await openDownloadsDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DOWNLOADS_STORE, 'readwrite');
+    tx.objectStore(DOWNLOADS_STORE).clear();
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function loadPublishedManifest() {
+  try {
+    const res = await fetch(DOWNLOADS_MANIFEST_PATH, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data.files) ? data.files : [];
+  } catch {
+    return [];
+  }
+}
+
+function getFileExtension(name) {
+  const parts = name.split('.');
+  return parts.length > 1 ? parts.pop().toLowerCase() : '';
+}
+
+function getFileIcon(name) {
+  const ext = getFileExtension(name);
+  return FILE_ICONS[ext] || FILE_ICONS.default;
+}
+
+function formatFileSize(bytes) {
+  if (!bytes && bytes !== 0) return '';
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+function base64ToBlob(base64, mimeType) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new Blob([bytes], { type: mimeType || 'application/octet-stream' });
+}
+
+function triggerFileDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function normalizeDownloadEntry(entry, source) {
+  return {
+    id: entry.id,
+    name: entry.name,
+    description: entry.description || '',
+    fileName: entry.fileName || entry.name,
+    mimeType: entry.mimeType || 'application/octet-stream',
+    size: entry.size || 0,
+    icon: entry.icon || getFileIcon(entry.fileName || entry.name),
+    source,
+    filePath: entry.filePath || null,
+    data: entry.data || null,
+    uploadedAt: entry.uploadedAt || null
+  };
+}
+
+function getAllDownloads() {
+  const seen = new Set();
+  const merged = [];
+
+  const addEntry = (entry, source) => {
+    const normalized = normalizeDownloadEntry(entry, source);
+    if (seen.has(normalized.id)) return;
+    seen.add(normalized.id);
+    merged.push(normalized);
+  };
+
+  STATIC_DOWNLOADS.forEach(entry => addEntry(entry, 'static'));
+  publishedDownloads.forEach(entry => addEntry(entry, 'published'));
+  localDownloads.forEach(entry => addEntry(entry, 'local'));
+
+  return merged.sort((a, b) => (b.uploadedAt || '').localeCompare(a.uploadedAt || ''));
+}
+
+async function downloadFile(entry) {
+  if (entry.filePath) {
+    const a = document.createElement('a');
+    a.href = entry.filePath;
+    a.download = entry.fileName || entry.name;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return;
+  }
+
+  if (entry.data) {
+    const blob = base64ToBlob(entry.data, entry.mimeType);
+    triggerFileDownload(blob, entry.fileName || entry.name);
+    return;
+  }
+
+  showNotification('File data not available.', 'error');
+}
+
+function renderDownloadsGrid() {
+  const grid = document.getElementById('downloadsGrid');
+  const empty = document.getElementById('downloadsEmpty');
+  if (!grid || !empty) return;
+
+  const files = getAllDownloads();
+  grid.innerHTML = '';
+
+  if (files.length === 0) {
+    empty.hidden = false;
+    grid.hidden = true;
+    return;
+  }
+
+  empty.hidden = true;
+  grid.hidden = false;
+
+  files.forEach(file => {
+    const card = document.createElement('article');
+    card.className = 'download-card';
+    card.setAttribute('role', 'listitem');
+
+    const canDelete = file.source === 'local';
+    const sourceLabel = file.source === 'published' ? 'Published' : file.source === 'local' ? 'Draft' : 'Static';
+
+    card.innerHTML = `
+      <div class="download-card-icon">${file.icon}</div>
+      <div class="download-card-body">
+        <h4>${escapeHtml(file.name)}</h4>
+        ${file.description ? `<p>${escapeHtml(file.description)}</p>` : ''}
+        <div class="download-card-meta">
+          <span>${escapeHtml(file.fileName)}</span>
+          ${file.size ? `<span>${formatFileSize(file.size)}</span>` : ''}
+          <span class="download-source-badge">${sourceLabel}</span>
+        </div>
+      </div>
+      <div class="download-card-actions">
+        <button class="btn download-btn" type="button" data-id="${file.id}">Download</button>
+        ${canDelete ? `<button class="btn secondary download-delete-btn" type="button" data-id="${file.id}" aria-label="Delete ${escapeHtml(file.name)}">Delete</button>` : ''}
+      </div>
+    `;
+
+    card.querySelector('.download-btn').addEventListener('click', () => downloadFile(file));
+    const deleteBtn = card.querySelector('.download-delete-btn');
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', async () => {
+        await deleteLocalDownload(file.id);
+        localDownloads = localDownloads.filter(f => f.id !== file.id);
+        renderDownloadsGrid();
+        showNotification('File removed.', 'success', 2000);
+      });
+    }
+
+    grid.appendChild(card);
+  });
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+async function handleDownloadUpload(e) {
+  e.preventDefault();
+
+  const nameInput = document.getElementById('downloadFileName');
+  const descInput = document.getElementById('downloadFileDesc');
+  const fileInput = document.getElementById('downloadFileInput');
+
+  const file = fileInput.files[0];
+  if (!file) {
+    showNotification('Please choose a file to upload.', 'warning');
+    return;
+  }
+  if (file.size > MAX_DOWNLOAD_SIZE) {
+    showNotification(`File too large. Maximum size is ${formatFileSize(MAX_DOWNLOAD_SIZE)}.`, 'error');
+    return;
+  }
+
+  const base64 = await fileToBase64(file);
+  const entry = {
+    id: `dl-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    name: nameInput.value.trim(),
+    description: descInput.value.trim(),
+    fileName: file.name,
+    mimeType: file.type || 'application/octet-stream',
+    size: file.size,
+    icon: getFileIcon(file.name),
+    data: base64,
+    uploadedAt: new Date().toISOString(),
+    source: 'local'
+  };
+
+  await saveLocalDownload(entry);
+  localDownloads.push(entry);
+  renderDownloadsGrid();
+
+  nameInput.value = '';
+  descInput.value = '';
+  fileInput.value = '';
+  document.getElementById('downloadsSelectedFile').textContent = '';
+  showNotification('File uploaded. Click "Publish to Site" to make it live for visitors.', 'success');
+}
+
+async function publishDownloads() {
+  const allLocal = await getLocalDownloads();
+  const existingPublished = await loadPublishedManifest();
+
+  const publishedIds = new Set(existingPublished.map(f => f.id));
+  const toPublish = allLocal.filter(f => !publishedIds.has(f.id));
+
+  if (toPublish.length === 0 && existingPublished.length === 0) {
+    showNotification('No files to publish. Upload a file first.', 'warning');
+    return;
+  }
+
+  const merged = [...existingPublished];
+  toPublish.forEach(f => {
+    merged.push({
+      id: f.id,
+      name: f.name,
+      description: f.description,
+      fileName: f.fileName,
+      mimeType: f.mimeType,
+      size: f.size,
+      icon: f.icon,
+      data: f.data,
+      uploadedAt: f.uploadedAt
+    });
+  });
+
+  const manifest = { files: merged };
+  const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: 'application/json' });
+  triggerFileDownload(blob, 'manifest.json');
+
+  showNotification(
+    'manifest.json downloaded. Replace downloads/manifest.json in your project and push to GitHub to publish.',
+    'success',
+    6000
+  );
+}
+
+function setupDownloadsDropzone() {
+  const dropzone = document.getElementById('downloadsDropzone');
+  const fileInput = document.getElementById('downloadFileInput');
+  const fileNameEl = document.getElementById('downloadsSelectedFile');
+  if (!dropzone || !fileInput) return;
+
+  ['dragenter', 'dragover'].forEach(evt => {
+    dropzone.addEventListener(evt, e => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+  });
+  ['dragleave', 'drop'].forEach(evt => {
+    dropzone.addEventListener(evt, e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+  });
+
+  dropzone.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      fileInput.files = e.dataTransfer.files;
+      fileNameEl.textContent = `${file.name} (${formatFileSize(file.size)})`;
+      const nameInput = document.getElementById('downloadFileName');
+      if (nameInput && !nameInput.value) {
+        nameInput.value = file.name.replace(/\.[^.]+$/, '');
+      }
+    }
+  });
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    fileNameEl.textContent = file
+      ? `${file.name} (${formatFileSize(file.size)})`
+      : '';
+    const nameInput = document.getElementById('downloadFileName');
+    if (file && nameInput && !nameInput.value) {
+      nameInput.value = file.name.replace(/\.[^.]+$/, '');
+    }
+  });
+}
+
+async function initializeDownloads() {
+  publishedDownloads = await loadPublishedManifest();
+  localDownloads = await getLocalDownloads();
+
+  const adminToggle = document.getElementById('toggleDownloadsAdmin');
+  const adminPanel = document.getElementById('downloadsAdminPanel');
+  const uploadForm = document.getElementById('downloadsUploadForm');
+  const publishBtn = document.getElementById('publishDownloadsBtn');
+
+  if (adminToggle && adminPanel) {
+    adminToggle.addEventListener('click', () => {
+      const isHidden = adminPanel.hidden;
+      adminPanel.hidden = !isHidden;
+      adminToggle.textContent = isHidden ? 'Hide Manager' : 'Manage Files';
+    });
+  }
+
+  if (uploadForm) uploadForm.addEventListener('submit', handleDownloadUpload);
+  if (publishBtn) publishBtn.addEventListener('click', publishDownloads);
+
+  setupDownloadsDropzone();
+  renderDownloadsGrid();
+}
+
 // Initialize performance optimizations and event listeners
 document.addEventListener('DOMContentLoaded', () => {
   lazyLoadImages();
@@ -1269,6 +1729,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Chat Assistant
   initializeChatAssistant();
   initializePdfExporter();
+  initializeDownloads();
 
   // Welcome sparkles + popup
   launchWelcomeEffects();
