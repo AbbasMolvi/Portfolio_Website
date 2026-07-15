@@ -605,7 +605,7 @@ function initializeChatAssistant(){
     if(t.includes('tour')||t.includes('guide')) answers.push('Use Start Guided Tour in the header; press Stop to end any time.');
     if(t.includes('voice')||t.includes('audio')) answers.push('Speech uses a natural male voice where available. Click Play Intro first to enable audio permissions.');
     if(t.includes('upwork')) answers.push('Upwork: https://www.upwork.com/freelancers/~01e048520f6cb273c4');
-    if(t.includes('linkedin')) answers.push('LinkedIn: https://linkedin.com/in/abbasmolvi-6a53a6202');
+    if(t.includes('linkedin')) answers.push('LinkedIn: https://www.linkedin.com/in/abbasmolvi-6a53a6202');
     if(t.includes('contact')||t.includes('email')||t.includes('phone')) answers.push('Contact: ✉️ abbasalimolvi@gmail.com · 📞 +91 8602-8601-82');
     if(t.includes('skills')) answers.push('Key skills: Trade compliance, ETL, Python, AI automation, SEO, recruitment, CRM/PM tools.');
     if(answers.length) return answers.join(' ');
