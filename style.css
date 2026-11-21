@@ -1052,7 +1052,7 @@ header {
 .timeline-role{ font-family: inherit; background: linear-gradient(135deg, rgba(20,91,255,0.12), rgba(11,111,91,0.12)); color:#0b1220; border:1px solid rgba(20,91,255,0.3); padding:6px 14px; border-radius:999px; font-weight:800; font-size: clamp(20px, 2.6vw, 36px) }
 .timeline-item span{display:block;font-size: clamp(13px, 1.15vw, 17px); color:#4b5563;margin-top:6px; font-weight:500}
 .timeline-content{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.2,.8,.2,1), padding .2s ease;margin-top:8px}
-.timeline-content.open{max-height:none;padding-top:8px;padding-bottom:8px}
+.timeline-content.open{max-height:none !important;overflow:visible;padding-top:8px;padding-bottom:8px}
 .timeline-bullets{margin:8px 0 0 18px}
 .timeline-bullets li{margin:8px 0;color:#1f2937;font-size: clamp(14px, 1.15vw, 17px); line-height:1.6; font-weight:400}
 .timeline-bullets li strong{ font-weight:700; color:#111827 }
